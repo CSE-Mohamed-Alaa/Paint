@@ -5,63 +5,56 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Map;
 
-public class ShapeImp implements Shape {
-
+public abstract class ShapeImp implements Shape {
+	private Point position;
+	private Map<String, Double> properties;
+	private Color color;
+	private Color fillColor;
 	@Override
 	public void setPosition(Point position) {
-		// TODO Auto-generated method stub
-
+		this.position = position;
 	}
 
 	@Override
 	public Point getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.position;
 	}
 
 	@Override
 	public void setProperties(Map<String, Double> properties) {
-		// TODO Auto-generated method stub
-
+		this.properties = properties;
 	}
 
 	@Override
 	public Map<String, Double> getProperties() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.properties;
 	}
 
 	@Override
 	public void setColor(Color color) {
-		// TODO Auto-generated method stub
-
+		this.color = color;
 	}
 
 	@Override
 	public Color getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.color;
 	}
 
 	@Override
 	public void setFillColor(Color color) {
-		// TODO Auto-generated method stub
-
+		this.fillColor = color;
 	}
 
 	@Override
 	public Color getFillColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return fillColor;
 	}
 
 	@Override
-	public void draw(Graphics canvas) {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract void draw(Graphics canvas);
 	@Override
 	public Object clone() throws CloneNotSupportedException{
+		// TODO
 		return null;
 		
 	}
