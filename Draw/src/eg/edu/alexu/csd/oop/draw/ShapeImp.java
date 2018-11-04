@@ -3,7 +3,9 @@ package eg.edu.alexu.csd.oop.draw;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class ShapeImp implements Shape {
 	private Point position;
@@ -53,9 +55,13 @@ public abstract class ShapeImp implements Shape {
 	@Override
 	public abstract void draw(Graphics canvas);
 	@Override
-	public Object clone() throws CloneNotSupportedException{
-		// TODO
-		return null;
+	public abstract Object clone() throws CloneNotSupportedException;
+	public Map<String, Double> cloneProberties(){
+		Map <String, Double> prop = new HashMap<>();
+		for (Entry<String, Double> entry : properties.entrySet()) {
+		   prop.put(entry.getKey()+"", new Double(entry.getValue().doubleValue())) ;
+		}
+		return prop;
 		
 	}
 
