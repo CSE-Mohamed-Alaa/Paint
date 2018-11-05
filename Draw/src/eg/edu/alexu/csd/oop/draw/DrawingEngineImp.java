@@ -20,7 +20,7 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public void addShape(Shape shape) {
-		shapes.add(shape);
+		shapes.add(shape); 
 	}
 
 	@Override
