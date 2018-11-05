@@ -3,9 +3,6 @@ package eg.edu.alexu.csd.oop.draw.GUI;
 import javax.swing.JFrame;
 
 import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Point;
-
 import javax.swing.JButton;
 
 public class GUI {
@@ -15,6 +12,9 @@ public class GUI {
 	 * Catch name from combo or choice box with all shapes
 	 * Catch color and fill color from combo or choice box
 	 * Catch the properties with listeners or enter the properties in textField (Note: listeners Easier)
+	 * catch Start, End points and a name of shape like this :
+	 * https://youtu.be/OOb1eil4PCo
+	 * redraw every second of drag using updateShape
 	 * calculate the setPosition (different with every shape)
 	 * Call addShape
 	 */
