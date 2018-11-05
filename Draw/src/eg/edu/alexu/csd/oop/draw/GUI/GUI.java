@@ -60,7 +60,7 @@ public class GUI {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(first, current);
+				drawingBoard.addLine(first, current,false);
 			}
 		});
 		drawingBoard.addMouseListener(new MouseAdapter() {
@@ -73,14 +73,13 @@ public class GUI {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(first, current);
+				drawingBoard.addLine(first, current,true);
 			}
 		});
 		drawingBoard.setBounds(10, 89, 974, 472);
 		frame.getContentPane().add(drawingBoard);
 
 		JButton drawLinebtn = new JButton("Draw Line");
-		drawLinebtn.addActionListener(e -> drawingBoard.addLine(null, null));
 		drawLinebtn.setBounds(10, 11, 89, 23);
 		frame.getContentPane().add(drawLinebtn);
 

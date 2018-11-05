@@ -11,17 +11,16 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class DrawingEngineImp implements DrawingEngine {
-
+	private ArrayList<Shape> shapes = new ArrayList<>();
 	@Override
 	public void refresh(Graphics canvas) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void addShape(Shape shape) {
-		// TODO Auto-generated method stub
-
+		shapes.add(shape);
 	}
 
 	@Override
@@ -38,8 +37,8 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public Shape[] getShapes() {
-		// TODO Auto-generated method stub
-		return null;
+		Shape [] x = new Shape[shapes.size()];
+		return  x = shapes.toArray(x);
 	}
 
 	@Override
@@ -87,7 +86,7 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
