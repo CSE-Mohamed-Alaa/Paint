@@ -1,11 +1,20 @@
 package eg.edu.alexu.csd.oop.draw.GUI;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Point;
 
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -22,13 +31,18 @@ public class GUI {
 	 * redraw every second of drag using updateShape
 	 * calculate the setPosition (different with every shape)
 	 * Call addShape
+	 * TODO remove this comment
 	 */
 
 	private JFrame frame;
-	private Point first;
-	private Point second;
-	private Point current;
 
+	private JButton lineBtn, rectangleBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
+	private Point first, second, current;
+	private Color color = Color.BLACK, fillColor = Color.BLACK;
+	enum Button {
+		LINE, RECTANGLE, TRIANGLE, CIRCLE, ELLIPSE, COLOR, FILLCOLOR
+	}
+	Button currentButton;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,8 +66,39 @@ public class GUI {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 600);
-		frame.setVisible(true);
-		frame.getContentPane().setLayout(null);
+		
+		
+		String pass ="./src/eg/edu/alexu/csd/oop/draw/GUI/Icons/";
+		lineBtn = creatButton(Button.LINE, pass + "Line.png");
+		rectangleBtn = creatButton(Button.RECTANGLE, pass + "Rectangle.png");
+		triangleBtn = creatButton(Button.TRIANGLE, null);
+		circleBtn = creatButton(Button.CIRCLE, null);
+		ellipseBtn = creatButton(Button.ELLIPSE, pass + "Ellipse.png");
+		
+		colorBtn = creatColorButton(Button.COLOR, pass + "Stroke.png");
+		fillColorBtn = creatColorButton(Button.FILLCOLOR, pass + "Fill.png");
+		
+		Box hBox = Box.createHorizontalBox();
+		hBox.add(lineBtn);
+		hBox.add(rectangleBtn);
+		hBox.add(triangleBtn);
+		hBox.add(circleBtn);
+		hBox.add(ellipseBtn);
+		
+		hBox.add(colorBtn);
+		hBox.add(fillColorBtn);
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.add(hBox);
+		frame.getContentPane().add(buttonsPanel, BorderLayout.NORTH);
+		
+		
+		
+		
+		
+		
+		
+		
 
 		DrawingBoard drawingBoard = new DrawingBoard();
 		drawingBoard.addMouseMotionListener(new MouseMotionAdapter() {
@@ -76,16 +121,37 @@ public class GUI {
 				drawingBoard.addLine(first, current);
 			}
 		});
-		drawingBoard.setBounds(10, 89, 974, 472);
-		frame.getContentPane().add(drawingBoard);
-
-		JButton drawLinebtn = new JButton("Draw Line");
-		drawLinebtn.addActionListener(e -> drawingBoard.addLine(null, null));
-		drawLinebtn.setBounds(10, 11, 89, 23);
-		frame.getContentPane().add(drawLinebtn);
-
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(109, 11, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		frame.getContentPane().add(drawingBoard, BorderLayout.CENTER);
+			
+		
+		
+		frame.setVisible(true);
+	}
+	
+	private JButton creatButton(Button name, String icon) {
+		JButton btn = new JButton(name.toString());
+		Icon x = new ImageIcon(icon);
+		btn.setIcon(x);
+		btn.addActionListener(e-> currentButton = name);
+		return btn;
+		
+	}
+	
+	private JButton creatColorButton(Button name, String icon) {
+		JButton btn = new JButton(/*name.toString()*/);
+		Icon x = new ImageIcon(icon);
+		btn.setIcon(x);
+		btn.addActionListener(e->{
+			if(name == Button.COLOR){
+				color = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
+			} else {
+				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
+			}
+		
+			//currentButton = name;
+					
+		});
+		return btn;
+		
 	}
 }
