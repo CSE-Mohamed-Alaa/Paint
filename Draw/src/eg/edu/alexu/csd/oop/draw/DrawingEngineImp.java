@@ -7,21 +7,24 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class DrawingEngineImp implements DrawingEngine {
-
+	private ArrayList<Shape> shapes = new ArrayList<>();
+	Stack<ArrayList<Shape>> undoStack = new Stack<>();
+	Stack<ArrayList<Shape>> redoStack = new Stack<>();
 	@Override
 	public void refresh(Graphics canvas) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void addShape(Shape shape) {
-		// TODO Auto-generated method stub
-
+		shapes.add(shape); 
+		undoStack.push(shapes);
 	}
 
 	@Override
@@ -38,8 +41,8 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public Shape[] getShapes() {
-		// TODO Auto-generated method stub
-		return null;
+		Shape [] x = new Shape[shapes.size()];
+		return  x = shapes.toArray(x);
 	}
 
 	@Override
@@ -86,14 +89,19 @@ public class DrawingEngineImp implements DrawingEngine {
 	}
 
 	@Override
-	public void undo() {
-		// TODO Auto-generated method stub
-
+	public void undo() { 
+		if (undoStack.size() < 20 && !undoStack.isEmpty()) {
+			shapes = undoStack.pop();
+			redoStack.push(shapes);
+			shapes =undoStack.peek();
+	}
+		
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
+		shapes = redoStack.pop();
+		undoStack.push(shapes);
 
 	}
 

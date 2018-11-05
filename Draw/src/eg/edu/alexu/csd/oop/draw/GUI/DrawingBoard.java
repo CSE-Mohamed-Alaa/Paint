@@ -22,29 +22,14 @@ public class DrawingBoard extends JPanel {
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
 		this.setBackground(Color.WHITE);
-		
-		/*
-		//line build in working 
-		canvas.setColor(Color.GREEN);
-		
-		+canvas.drawLine(0,0,50,50);
-		*/
-		/*
-		//it is the right implementation i think
 		Shape[] Shape = drawingEngine.getShapes();
 		for (Shape x : Shape) {
 			x.draw(canvas);
 		}
-		*/
 		
-		//our line (Doesn't Work)
-		if(x != null) {
-		x.setColor(Color.GREEN);
-		x.draw(canvas);
-		}
 	}
 
-	public void addLine(Point start, Point end) {
+	public void addLine(Point start, Point end,boolean finished) {
 		//ta2rebn hanb3at al properties be Map 3a4an manb3at4 parameters kteer
 		//3a4an kda kda hatet7at fe al map , fa badal ma afdl a pass parameters kteer 
 		//a3ml pass le al Map we 5las
@@ -53,12 +38,13 @@ public class DrawingBoard extends JPanel {
 		Line line = new Line();
 		line.setPoint1(start);
 		line.setPoint2(end);
-		x=line;
-		//TODO set colors we 7agat tanyah m4 wa2taha now
-		drawingEngine.addShape(line);
+		line.setColor(Color.GRAY);
+		if (finished)
+			drawingEngine.addShape(line);
+		getGraphics().drawLine(start.x, start.y, end.x, end.y);
 		repaint();
 	}
-	Line x;
+
 	
 	
 }
