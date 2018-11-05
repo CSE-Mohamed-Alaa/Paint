@@ -3,7 +3,12 @@ package eg.edu.alexu.csd.oop.draw.GUI;
 import javax.swing.JFrame;
 
 import java.awt.EventQueue;
+import java.awt.Point;
+
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class GUI {
 	
@@ -20,7 +25,11 @@ public class GUI {
 	 */
 
 	private JFrame frame;
+	private Point first;
+	private Point second;
+	private Point current;
 
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,12 +51,32 @@ public class GUI {
 		frame = new JFrame("Paint");
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(600, 400);
+		frame.setSize(1000, 600);
 		frame.setVisible(true);
 		frame.getContentPane().setLayout(null);
 
 		DrawingBoard drawingBoard = new DrawingBoard();
-		drawingBoard.setBounds(10, 45, 574, 316);
+		drawingBoard.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				current = new Point(e.getX(), e.getY());
+				drawingBoard.addLine(first, current);
+			}
+		});
+		drawingBoard.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				first = new Point(e.getX(), e.getY());
+				
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				current = new Point(e.getX(), e.getY());
+				drawingBoard.addLine(first, current);
+			}
+		});
+		drawingBoard.setBounds(10, 89, 974, 472);
 		frame.getContentPane().add(drawingBoard);
 
 		JButton drawLinebtn = new JButton("Draw Line");

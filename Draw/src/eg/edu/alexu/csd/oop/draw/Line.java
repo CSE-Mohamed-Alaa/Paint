@@ -11,7 +11,7 @@ public class Line extends ShapeImp {
 	@Override
 	public void draw(Graphics canvas) {
 		canvas.setColor(getColor());
-		canvas.drawLine(point1.x, point2.x, point1.y, point2.y);
+		canvas.drawLine(point1.x, point1.y, point2.x, point2.y);
 	}
 
 	public Point getPoint1() {

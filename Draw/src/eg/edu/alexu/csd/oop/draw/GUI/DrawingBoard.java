@@ -13,30 +13,35 @@ import eg.edu.alexu.csd.oop.draw.Shape;
 
 public class DrawingBoard extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	DrawingEngine drawingEngine = new DrawingEngineImp();
 	
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
 		this.setBackground(Color.WHITE);
+		
 		/*
 		//line build in working 
 		canvas.setColor(Color.GREEN);
-		canvas.drawLine(0,0,50,50);
-		*/
 		
+		+canvas.drawLine(0,0,50,50);
+		*/
+		/*
 		//it is the right implementation i think
 		Shape[] Shape = drawingEngine.getShapes();
 		for (Shape x : Shape) {
 			x.draw(canvas);
 		}
-		/*
-		//our line (Doesn't Work)
-		Line line = new Line();
-		line.setPoint1(new Point(0,0));
-		line.setPoint2(new Point(50,50));
-		line.setColor(Color.GREEN);
-		line.draw(canvas);
 		*/
+		
+		//our line (Doesn't Work)
+		if(x != null) {
+		x.setColor(Color.GREEN);
+		x.draw(canvas);
+		}
 	}
 
 	public void addLine(Point start, Point end) {
@@ -48,11 +53,12 @@ public class DrawingBoard extends JPanel {
 		Line line = new Line();
 		line.setPoint1(start);
 		line.setPoint2(end);
+		x=line;
 		//TODO set colors we 7agat tanyah m4 wa2taha now
 		drawingEngine.addShape(line);
 		repaint();
 	}
-	
+	Line x;
 	
 	
 }
