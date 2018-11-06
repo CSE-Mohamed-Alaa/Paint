@@ -16,6 +16,7 @@ import eg.edu.alexu.csd.oop.draw.Line;
 import eg.edu.alexu.csd.oop.draw.Rectangle;
 import eg.edu.alexu.csd.oop.draw.Shape;
 import eg.edu.alexu.csd.oop.draw.Square;
+import eg.edu.alexu.csd.oop.draw.Triangle;
 import eg.edu.alexu.csd.oop.draw.GUI.GUI.ShapeId;
 
 public class DrawingBoard extends JPanel {
@@ -50,8 +51,7 @@ public class DrawingBoard extends JPanel {
 			x = new Rectangle();
 			break;
 		case TRIANGLE:
-			//TODO
-			x = new Line();
+			x = new Triangle();
 			break;
 		case CIRCLE:
 			x = new Circle();
