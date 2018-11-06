@@ -18,34 +18,34 @@ import javax.swing.JColorChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GUI {
-	
+
 	/*
-	 * Catch Shape Properties :-
-	 * Catch name from combo or choice box with all shapes
-	 * Catch color and fill color from combo or choice box
-	 * Catch the properties with listeners or enter the properties in textField (Note: listeners Easier)
-	 * catch Start, End points and a name of shape like this :
-	 * https://youtu.be/OOb1eil4PCo
-	 * redraw every second of drag using updateShape
-	 * calculate the setPosition (different with every shape)
-	 * Call addShape
-	 * TODO remove this comment
+	 * Catch Shape Properties :- Catch name from combo or choice box with all shapes
+	 * Catch color and fill color from combo or choice box Catch the properties with
+	 * listeners or enter the properties in textField (Note: listeners Easier) catch
+	 * Start, End points and a name of shape like this :
+	 * https://youtu.be/OOb1eil4PCo redraw every second of drag using updateShape
+	 * calculate the setPosition (different with every shape) Call addShape TODO
+	 * remove this comment
 	 */
 
 	private JFrame frame;
 
-	private JButton lineBtn, rectangleBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
+	private JButton lineBtn, rectangleBtn,squareBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
 	private Point position, current;
 	private Map<String, Double> properties;
 	private Color color = Color.BLACK, fillColor = null;
-	enum Button {
-		LINE, RECTANGLE, TRIANGLE, CIRCLE, ELLIPSE, COLOR, FILLCOLOR
+
+	enum ShapeId {
+		LINE, RECTANGLE, SQUARE, TRIANGLE, CIRCLE, ELLIPSE, COLOR, FILLCOLOR
 	}
-	Button currentButton;
-	
+
+	ShapeId currentButton = ShapeId.LINE;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,46 +68,40 @@ public class GUI {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 600);
-		
-		
-		String pass ="./src/eg/edu/alexu/csd/oop/draw/GUI/Icons/";
-		lineBtn = creatButton(Button.LINE, pass + "Line.png");
-		rectangleBtn = creatButton(Button.RECTANGLE, pass + "Rectangle.png");
-		triangleBtn = creatButton(Button.TRIANGLE, null);
-		circleBtn = creatButton(Button.CIRCLE, null);
-		ellipseBtn = creatButton(Button.ELLIPSE, pass + "Ellipse.png");
-		
-		colorBtn = creatColorButton(Button.COLOR, pass + "Stroke.png");
-		fillColorBtn = creatColorButton(Button.FILLCOLOR, pass + "Fill.png");
-		
+
+		String pass = "./src/eg/edu/alexu/csd/oop/draw/GUI/Icons/";
+		lineBtn = creatButton(ShapeId.LINE, pass + "Line.png");
+		rectangleBtn = creatButton(ShapeId.RECTANGLE, pass + "Rectangle.png");
+		triangleBtn = creatButton(ShapeId.TRIANGLE, null);
+		circleBtn = creatButton(ShapeId.CIRCLE, null);
+		ellipseBtn = creatButton(ShapeId.ELLIPSE, pass + "Ellipse.png");
+		squareBtn = creatButton(ShapeId.SQUARE, pass + null);
+		colorBtn = creatColorButton(ShapeId.COLOR, pass + "Stroke.png");
+		fillColorBtn = creatColorButton(ShapeId.FILLCOLOR, pass + "Fill.png");
+
 		Box hBox = Box.createHorizontalBox();
 		hBox.add(lineBtn);
 		hBox.add(rectangleBtn);
 		hBox.add(triangleBtn);
 		hBox.add(circleBtn);
 		hBox.add(ellipseBtn);
-		
+		hBox.add(squareBtn);
 		hBox.add(colorBtn);
 		hBox.add(fillColorBtn);
-		
+
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
 		frame.getContentPane().add(buttonsPanel, BorderLayout.NORTH);
-		
-		
-		
-		
-		
-		
-		
-		
 
 		DrawingBoard drawingBoard = new DrawingBoard();
 		drawingBoard.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(position, current,false);
+				properties = new HashMap<>();
+				properties.put("x", current.getX());
+				properties.put("y", current.getY());
+				drawingBoard.passShapeInfo(currentButton, position, properties, color, fillColor, false);
 
 			}
 		});
@@ -115,44 +109,45 @@ public class GUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				position = new Point(e.getX(), e.getY());
-				
+
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(position, current,true);
+				properties = new HashMap<>();
+				properties.put("x", current.getX());
+				properties.put("y", current.getY());
+				drawingBoard.passShapeInfo(currentButton, position, properties, color, fillColor, true);
 			}
 		});
 		frame.getContentPane().add(drawingBoard, BorderLayout.CENTER);
-			
-		
-		
+
 		frame.setVisible(true);
 	}
-	
-	private JButton creatButton(Button name, String icon) {
+
+	private JButton creatButton(ShapeId name, String icon) {
 		JButton btn = new JButton(name.toString());
 		Icon x = new ImageIcon(icon);
 		btn.setIcon(x);
-		btn.addActionListener(e-> currentButton = name);
+		btn.addActionListener(e -> currentButton = name);
 		return btn;
-		
+
 	}
-	
-	private JButton creatColorButton(Button name, String icon) {
-		JButton btn = new JButton(/*name.toString()*/);
+
+	private JButton creatColorButton(ShapeId name, String icon) {
+		JButton btn = new JButton(/* name.toString() */);
 		Icon x = new ImageIcon(icon);
 		btn.setIcon(x);
-		btn.addActionListener(e->{
-			if(name == Button.COLOR){
+		btn.addActionListener(e -> {
+			if (name == ShapeId.COLOR) {
 				color = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
 			} else {
 				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
 			}
-		
-			//currentButton = name;
-					
+
+			// currentButton = name;
+
 		});
 		return btn;
 	}

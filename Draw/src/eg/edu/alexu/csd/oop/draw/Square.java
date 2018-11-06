@@ -4,26 +4,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class Ellipse extends ShapeImp {
-	
+public class Square extends ShapeImp {
+
 	@Override
 	public void draw(Graphics canvas) {
-		int x = Math.min(getPosition().x,  getProperties().get("x").intValue());
-		int y = Math.min(getPosition().y,  getProperties().get("y").intValue());
-		int width = Math.abs(getPosition().x-  getProperties().get("x").intValue());
-		int height = Math.abs(getPosition().y-  getProperties().get("y").intValue());
+		int x = getPosition().x;
+		int y = getPosition().y;
+		int radius = (int) Math.sqrt(Math.min(Math.pow(getPosition().x - getProperties().get("x") , 2),Math.pow(getPosition().y - getProperties().get("y") , 2)));
+
 		if (getFillColor() != null) {
 			canvas.setColor(getFillColor());
-			canvas.fillOval(x, y, width, height);
+			canvas.fillRect(x- radius, y - radius, 2 *radius,2 * radius);
 		}
-		
 		canvas.setColor(getColor());
-		canvas.drawOval(x, y, width, height);
+		canvas.drawRect(x- radius, y - radius, 2 *radius, 2*radius);
 	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		Ellipse x = new Ellipse();
+		Square x = new Square();
 		x.setColor(new Color(getColor().getRGB()));
 		x.setPosition(new Point(getPosition()));
 		x.setFillColor(new Color(getFillColor().getRGB()));

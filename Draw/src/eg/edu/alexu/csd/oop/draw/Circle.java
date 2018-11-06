@@ -5,28 +5,25 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public class Circle extends  ShapeImp {
-	private int radius;
-
-	public int getRadius() {
-		return radius;
-	}
-
-	public void setRadius(int radius) {
-		this.radius = radius;
-	}
+	
 
 	@Override
 	public void draw(Graphics canvas) {
-		canvas.setColor(getFillColor());
-		canvas.fillOval(getPosition().x, getPosition().y, radius, radius);
+		int x = getPosition().x;
+		int y = getPosition().y;
+		int radius = (int) Math.sqrt(Math.pow(getPosition().x - getProperties().get("x") , 2)+Math.pow(getPosition().y - getProperties().get("y") , 2));
+
+		if (getFillColor() != null) {
+			canvas.setColor(getFillColor());
+			canvas.fillOval(x- radius, y - radius, 2 *radius,2 * radius);
+		}
 		canvas.setColor(getColor());
-		canvas.drawOval(getPosition().x, getPosition().y, radius, radius);
+		canvas.drawOval(x- radius, y - radius, 2 *radius, 2*radius);
 	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Circle x = new Circle();
-		x.setRadius(radius);
 		x.setColor(new Color(getColor().getRGB()));
 		x.setPosition(new Point(getPosition()));
 		x.setFillColor(new Color(getFillColor().getRGB()));
