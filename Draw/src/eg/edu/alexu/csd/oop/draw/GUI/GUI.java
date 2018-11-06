@@ -23,16 +23,6 @@ import java.util.Map;
 
 public class GUI {
 
-	/*
-	 * Catch Shape Properties :- Catch name from combo or choice box with all shapes
-	 * Catch color and fill color from combo or choice box Catch the properties with
-	 * listeners or enter the properties in textField (Note: listeners Easier) catch
-	 * Start, End points and a name of shape like this :
-	 * https://youtu.be/OOb1eil4PCo redraw every second of drag using updateShape
-	 * calculate the setPosition (different with every shape) Call addShape TODO
-	 * remove this comment
-	 */
-
 	private JFrame frame;
 
 	private JButton lineBtn, rectangleBtn,squareBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
@@ -41,10 +31,10 @@ public class GUI {
 	private Color color = Color.BLACK, fillColor = null;
 
 	enum ShapeId {
-		LINE, RECTANGLE, SQUARE, TRIANGLE, CIRCLE, ELLIPSE, COLOR, FILLCOLOR
+		Line, Rectangle, Square, Triangle, Circle, Ellipse, COLOR, FILLCOLOR
 	}
 
-	ShapeId currentButton = ShapeId.LINE;
+	ShapeId currentButton = ShapeId.Line;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,29 +59,38 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 600);
 
-		String pass = "./src/eg/edu/alexu/csd/oop/draw/GUI/Icons/";
-		lineBtn = creatButton(ShapeId.LINE, pass + "Line.png");
-		rectangleBtn = creatButton(ShapeId.RECTANGLE, pass + "Rectangle.png");
-		triangleBtn = creatButton(ShapeId.TRIANGLE, null);
-		circleBtn = creatButton(ShapeId.CIRCLE, null);
-		ellipseBtn = creatButton(ShapeId.ELLIPSE, pass + "Ellipse.png");
-		squareBtn = creatButton(ShapeId.SQUARE, pass + null);
+		String pass = "./src/eg/edu/alexu/csd/oop/draw/GUI/";
+		lineBtn = creatButton(ShapeId.Line, pass + "Line.png");
+		rectangleBtn = creatButton(ShapeId.Rectangle, pass + "Rectangle.png");
+		triangleBtn = creatButton(ShapeId.Triangle, "Triangle.png");
+		circleBtn = creatButton(ShapeId.Circle, "Circle.png");
+		ellipseBtn = creatButton(ShapeId.Ellipse, pass + "Ellipse.png");
+		squareBtn = creatButton(ShapeId.Square, pass + "Square.png");
 		colorBtn = creatColorButton(ShapeId.COLOR, pass + "Stroke.png");
 		fillColorBtn = creatColorButton(ShapeId.FILLCOLOR, pass + "Fill.png");
 
 		Box hBox = Box.createHorizontalBox();
+
 		hBox.add(lineBtn);
-		hBox.add(rectangleBtn);
 		hBox.add(triangleBtn);
+		hBox.add(squareBtn);
+		hBox.add(rectangleBtn);
 		hBox.add(circleBtn);
 		hBox.add(ellipseBtn);
-		hBox.add(squareBtn);
 		hBox.add(colorBtn);
 		hBox.add(fillColorBtn);
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
 		frame.getContentPane().add(buttonsPanel, BorderLayout.NORTH);
+		
+		
+		
+		Box vBox = Box.createVerticalBox();
+		
+		
+		
+		
 
 		DrawingBoard drawingBoard = new DrawingBoard();
 		drawingBoard.addMouseMotionListener(new MouseMotionAdapter() {
@@ -127,7 +126,7 @@ public class GUI {
 	}
 
 	private JButton creatButton(ShapeId name, String icon) {
-		JButton btn = new JButton(name.toString());
+		JButton btn = new JButton(/*name.toString()*/);
 		Icon x = new ImageIcon(icon);
 		btn.setIcon(x);
 		btn.addActionListener(e -> currentButton = name);
@@ -145,8 +144,6 @@ public class GUI {
 			} else {
 				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
 			}
-
-			// currentButton = name;
 
 		});
 		return btn;

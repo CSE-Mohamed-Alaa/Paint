@@ -44,23 +44,23 @@ public class DrawingBoard extends JPanel {
 	private Shape determineShape(ShapeId id) {
 		Shape x = null;
 		switch (id) {
-		case LINE:
+		case Line:
 			x = new Line();
 			break;
-		case RECTANGLE:
+		case Rectangle:
 			x = new Rectangle();
 			break;
-		case TRIANGLE:
+		case Triangle:
 			x = new Triangle();
 			break;
-		case CIRCLE:
+		case Circle:
 			x = new Circle();
 
 			break;
-		case ELLIPSE:
+		case Ellipse:
 			x = new Ellipse();
 			break;
-		case SQUARE:
+		case Square:
 			x = new Square();
 		default:
 			break;
