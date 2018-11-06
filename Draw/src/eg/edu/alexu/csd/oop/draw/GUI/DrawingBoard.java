@@ -22,10 +22,7 @@ public class DrawingBoard extends JPanel {
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
 		this.setBackground(Color.WHITE);
-		Shape[] Shape = drawingEngine.getShapes();
-		for (Shape x : Shape) {
-			x.draw(canvas);
-		}
+		drawingEngine.refresh(canvas);
 		
 	}
 
