@@ -18,6 +18,7 @@ import javax.swing.JColorChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Map;
 
 public class GUI {
 	
@@ -37,8 +38,9 @@ public class GUI {
 	private JFrame frame;
 
 	private JButton lineBtn, rectangleBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
-	private Point first, second, current;
-	private Color color = Color.BLACK, fillColor = Color.BLACK;
+	private Point position, current;
+	private Map<String, Double> properties;
+	private Color color = Color.BLACK, fillColor = null;
 	enum Button {
 		LINE, RECTANGLE, TRIANGLE, CIRCLE, ELLIPSE, COLOR, FILLCOLOR
 	}
@@ -105,20 +107,20 @@ public class GUI {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(first, current,false);
+				drawingBoard.addLine(position, current,false);
 			}
 		});
 		drawingBoard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				first = new Point(e.getX(), e.getY());
+				position = new Point(e.getX(), e.getY());
 				
 			}
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
-				drawingBoard.addLine(first, current,true);
+				drawingBoard.addLine(position, current,true);
 			}
 		});
 		frame.getContentPane().add(drawingBoard, BorderLayout.CENTER);
