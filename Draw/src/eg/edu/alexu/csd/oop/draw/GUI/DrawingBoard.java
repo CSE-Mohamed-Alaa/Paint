@@ -21,12 +21,14 @@ public class DrawingBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	DrawingEngine drawingEngine = new DrawingEngineImp();
 
+	Point Start, End;
+
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
 		this.setBackground(Color.WHITE);
-		Shape[] Shape = drawingEngine.getShapes();
-		for (Shape x : Shape) {
-			x.draw(canvas);
+		drawingEngine.refresh(canvas);
+		if (!(Start==null) && !(End==null)) {
+			canvas.drawLine(Start.x, Start.y, End.x, End.y);
 		}
 
 	}
@@ -68,7 +70,6 @@ public class DrawingBoard extends JPanel {
 		repaint();
 
 	}
-	
 
 	public void addLine(Point start, Point end, boolean finished) {
 		// ta2rebn hanb3at al properties be Map 3a4an manb3at4 parameters kteer
@@ -80,9 +81,11 @@ public class DrawingBoard extends JPanel {
 		line.setPoint1(start);
 		line.setPoint2(end);
 		line.setColor(Color.GRAY);
-		if (finished)
+		Start = start;
+		End = end;
+		if (finished) {
 			drawingEngine.addShape(line);
-		getGraphics().drawLine(start.x, start.y, end.x, end.y);
+		}
 		repaint();
 	}
 

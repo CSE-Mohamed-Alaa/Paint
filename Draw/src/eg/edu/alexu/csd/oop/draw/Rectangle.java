@@ -9,6 +9,7 @@ public class Rectangle extends ShapeImp {
 	private int width;
 	private int height;
 
+	
 	@Override
 	public void draw(Graphics canvas) {
 		canvas.setColor(getFillColor());

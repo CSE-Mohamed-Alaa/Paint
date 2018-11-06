@@ -18,6 +18,9 @@ public class DrawingEngineImp implements DrawingEngine {
 	@Override
 	public void refresh(Graphics canvas) {
 		
+		for (Shape x : shapes) {
+			x.draw(canvas);
+		}
 
 	}
 

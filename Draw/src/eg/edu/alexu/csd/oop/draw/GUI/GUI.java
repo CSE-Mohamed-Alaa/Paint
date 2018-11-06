@@ -108,6 +108,7 @@ public class GUI {
 			public void mouseDragged(MouseEvent e) {
 				current = new Point(e.getX(), e.getY());
 				drawingBoard.addLine(position, current,false);
+
 			}
 		});
 		drawingBoard.addMouseListener(new MouseAdapter() {
