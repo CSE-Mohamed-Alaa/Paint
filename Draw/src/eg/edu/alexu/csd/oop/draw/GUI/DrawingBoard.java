@@ -25,22 +25,27 @@ public class DrawingBoard extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	DrawingEngine drawingEngine = new DrawingEngineImp();
-	Shape currentShape ;
-	boolean shapeFinished = false;
-	
+	private DrawingEngine drawingEngine = new DrawingEngineImp();
+	private Shape currentShape;
+	private boolean shapeFinished = false;
+
+	public DrawingEngine getDrawingEngine() {
+		return drawingEngine;
+	}
+
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
 		this.setBackground(Color.WHITE);
-		((Graphics2D)canvas).setStroke(new BasicStroke(2));
+		((Graphics2D) canvas).setStroke(new BasicStroke(2));
 		if (shapeFinished && currentShape != null) {
 			drawingEngine.addShape(currentShape);
 			drawingEngine.refresh(canvas);
-		}else if (currentShape != null) {
+		} else if (currentShape != null) {
 			drawingEngine.refresh(canvas);
 			currentShape.draw(canvas);
 		}
 	}
+
 	private Shape determineShape(ShapeId id) {
 		Shape x = null;
 		switch (id) {
@@ -67,8 +72,9 @@ public class DrawingBoard extends JPanel {
 		}
 		return x;
 	}
-	public void passShapeInfo(ShapeId id, Point position, Map<String, Double> properties,
-			Color color, Color fillColor, boolean finished) {
+
+	public void passShapeInfo(ShapeId id, Point position, Map<String, Double> properties, Color color, Color fillColor,
+			boolean finished) {
 		Shape x = determineShape(id);
 		shapeFinished = finished;
 		currentShape = x;
@@ -77,7 +83,16 @@ public class DrawingBoard extends JPanel {
 		x.setColor(color);
 		x.setFillColor(fillColor);
 		repaint();
+	}
 
+	public void undo() {
+		drawingEngine.undo();
+		repaint();
+	}
+
+	public void redo() {
+		drawingEngine.redo();
+		repaint();
 	}
 
 }
