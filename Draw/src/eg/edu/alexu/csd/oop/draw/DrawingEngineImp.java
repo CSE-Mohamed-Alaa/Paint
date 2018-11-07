@@ -103,7 +103,7 @@ public class DrawingEngineImp implements DrawingEngine {
 		if (undoStack.size() <= 20 && !undoStack.isEmpty()) {
 			redoStack.push(shapes);
 			shapes = undoStack.pop();
-	}
+		}
 		
 	}
 
@@ -111,8 +111,6 @@ public class DrawingEngineImp implements DrawingEngine {
 	public void redo() {
 		undoStack.push(shapes);
 		shapes = redoStack.pop();
-		
-
 	}
 
 	@Override

@@ -55,7 +55,17 @@ public abstract class ShapeImp implements Shape {
 	@Override
 	public abstract void draw(Graphics canvas);
 	@Override
-	public abstract Object clone() throws CloneNotSupportedException;
+	public Object clone() throws CloneNotSupportedException{
+		Shape x = getInstance();
+		x.setColor(new Color(getColor().getRGB()));
+		x.setPosition(new Point(getPosition()));
+		x.setFillColor(new Color(getFillColor().getRGB()));
+		x.setProperties(cloneProberties());
+		return x;
+	};
+	
+	public abstract Shape getInstance();	
+	
 	public Map<String, Double> cloneProberties(){
 		Map <String, Double> prop = new HashMap<>();
 		for (Entry<String, Double> entry : properties.entrySet()) {
