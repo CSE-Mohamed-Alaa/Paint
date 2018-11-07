@@ -108,7 +108,7 @@ public class DrawingEngineImp implements DrawingEngine {
 		if (!undoStack.isEmpty()) {
 			redoStack.push(shapes);
 			shapes = undoStack.pop();
-	}
+		}
 		
 	}
 

@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 
 public class Square extends ShapeImp {
 
@@ -19,14 +17,10 @@ public class Square extends ShapeImp {
 		canvas.setColor(getColor());
 		canvas.drawRect(x- radius, y - radius, 2 *radius, 2*radius);
 	}
-
+	
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		Square x = new Square();
-		x.setColor(new Color(getColor().getRGB()));
-		x.setPosition(new Point(getPosition()));
-		x.setFillColor(new Color(getFillColor().getRGB()));
-		x.setProperties(cloneProberties());
+	public Shape getInstance() {
+		Shape x = new Square();
 		return x;
 	}
 
