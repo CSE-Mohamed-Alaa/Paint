@@ -46,10 +46,11 @@ public class DrawingEngineImp implements DrawingEngine {
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
 		updateStacks();
-		for (Shape x : shapes) {
-			if (x == oldShape) {
-				x = newShape;
+		for (int i = 0; i < shapes.size(); i++) {
+			if (oldShape == shapes.get(i)) {
+				shapes.set(i, newShape);
 			}
+
 		}
 
 	}
