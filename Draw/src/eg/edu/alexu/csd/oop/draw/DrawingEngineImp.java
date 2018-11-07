@@ -26,13 +26,20 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public void addShape(Shape shape) {
+		undoStack.push((ArrayList<Shape>) shapes.clone());
 		shapes.add(shape); 
-		undoStack.push(shapes);
+		
 	}
 
 	@Override
 	public void removeShape(Shape shape) {
-		// TODO Auto-generated method stub
+		undoStack.push((ArrayList<Shape>) shapes.clone());
+		for (int i = 0; i < shapes.size(); i++) {
+			if (shape == shapes.get(i)) {
+				shapes.remove(i);
+			}
+			
+		}
 
 	}
 
@@ -93,18 +100,18 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	@Override
 	public void undo() { 
-		if (undoStack.size() < 20 && !undoStack.isEmpty()) {
-			shapes = undoStack.pop();
+		if (undoStack.size() <= 20 && !undoStack.isEmpty()) {
 			redoStack.push(shapes);
-			shapes =undoStack.peek();
+			shapes = undoStack.pop();
 	}
 		
 	}
 
 	@Override
 	public void redo() {
-		shapes = redoStack.pop();
 		undoStack.push(shapes);
+		shapes = redoStack.pop();
+		
 
 	}
 
