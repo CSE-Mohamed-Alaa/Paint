@@ -40,9 +40,12 @@ public class DrawingBoard extends JPanel {
 		if (shapeFinished && currentShape != null) {
 			drawingEngine.addShape(currentShape);
 			drawingEngine.refresh(canvas);
+			currentShape = null;
 		} else if (currentShape != null) {
 			drawingEngine.refresh(canvas);
 			currentShape.draw(canvas);
+		}else {
+			drawingEngine.refresh(canvas);
 		}
 	}
 
