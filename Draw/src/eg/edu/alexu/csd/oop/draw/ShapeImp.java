@@ -59,6 +59,7 @@ public abstract class ShapeImp implements Shape {
 		Shape x = getInstance();
 		x.setColor(new Color(getColor().getRGB()));
 		x.setPosition(new Point(getPosition()));
+		//TODO fillColor maybe = null NullPointerException
 		x.setFillColor(new Color(getFillColor().getRGB()));
 		x.setProperties(cloneProberties());
 		return x;
