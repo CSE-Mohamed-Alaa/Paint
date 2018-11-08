@@ -1,3 +1,4 @@
+/*
 package eg.edu.alexu.csd.oop.draw.GUI;
 
 import java.awt.BasicStroke;
@@ -21,17 +22,16 @@ import eg.edu.alexu.csd.oop.draw.GUI.GUI.ShapeId;
 
 public class DrawingBoard extends JPanel {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-	private DrawingEngine drawingEngine = new DrawingEngineImp();
+	private DrawingEngine drawingEngine;
 	private Shape currentShape;
 	private boolean shapeFinished = false;
 
-	public DrawingEngine getDrawingEngine() {
-		return drawingEngine;
+	public void setDrawingEngine(DrawingEngine drawingEngine) {
+		this.drawingEngine = drawingEngine;
 	}
+
 
 	public void paintComponent(Graphics canvas) {
 		super.paintComponent(canvas);
@@ -98,4 +98,7 @@ public class DrawingBoard extends JPanel {
 		repaint();
 	}
 
+	
 }
+
+*/

@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 
 public class Circle extends  ShapeImp {
 	
