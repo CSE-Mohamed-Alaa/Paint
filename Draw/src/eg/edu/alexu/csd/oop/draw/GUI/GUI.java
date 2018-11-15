@@ -325,10 +325,10 @@ public class GUI {
 				color = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
 			} else {
 				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
-				prevFillColor = fillColor;
-				solidShapes.setSelected(true);
-				if(fillColor == null) {
-					//TODO
+				if(fillColor != null) {
+					prevFillColor = fillColor;
+					solidShapes.setSelected(true);
+				}else {
 					solidShapes.setSelected(false);
 				}
 			}
