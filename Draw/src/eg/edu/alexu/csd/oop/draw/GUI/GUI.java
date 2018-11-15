@@ -51,8 +51,8 @@ public class GUI {
 	private JButton lineBtn, rectangleBtn, squareBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
 	private Point position, current;
 	private Map<String, Double> properties;
-	private Color color = Color.BLACK, fillColor = Color.BLACK;
-
+	private Color color = Color.BLACK, fillColor = Color.BLACK, prevFillColor = Color.BLACK;
+	JCheckBox solidShapes;
 	enum ShapeId {
 		Line, Rectangle, Square, Triangle, Circle, Ellipse, COLOR, FILLCOLOR
 	}
@@ -154,11 +154,13 @@ public class GUI {
 		JPanel eastPanel = new JPanel();
 		eastPanel.add(vBox);
 		
-		JCheckBox solidShapes = new JCheckBox("Draw Solid Shapes");
+		solidShapes = new JCheckBox("Draw Solid Shapes");
 		solidShapes.setAlignmentX(Component.CENTER_ALIGNMENT);
 		solidShapes.setSelected(true);
 		solidShapes.addActionListener(e -> {
-			if(!solidShapes.isSelected()) {
+			if(solidShapes.isSelected()) {
+				fillColor = prevFillColor;
+			}else {
 				fillColor = null;
 			}
 		});
@@ -323,6 +325,12 @@ public class GUI {
 				color = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
 			} else {
 				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
+				prevFillColor = fillColor;
+				solidShapes.setSelected(true);
+				if(fillColor == null) {
+					//TODO
+					solidShapes.setSelected(false);
+				}
 			}
 
 		});
