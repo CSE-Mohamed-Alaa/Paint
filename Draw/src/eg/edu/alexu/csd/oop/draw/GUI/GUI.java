@@ -18,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -26,6 +28,7 @@ import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 
 import eg.edu.alexu.csd.oop.draw.Circle;
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
@@ -184,12 +187,12 @@ public class GUI {
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		vBox.add(horizontalBox_2);
 		
-		final int MOVE_CONST = 10;
+		final int CHANGE_CONST = 10;
 		
 		JButton upBtn = new JButton("UP");
 		upBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				moveShape(0, -MOVE_CONST, 0, -MOVE_CONST);
+				editShape(0, -CHANGE_CONST, 0, -CHANGE_CONST);
 			}
 		});
 
@@ -201,7 +204,7 @@ public class GUI {
 		JButton leftBtn = new JButton("Left");
 		leftBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				moveShape(-MOVE_CONST, 0, -MOVE_CONST, 0);
+				editShape(-CHANGE_CONST, 0, -CHANGE_CONST, 0);
 			}
 		});
 		horizontalBox_3.add(leftBtn);
@@ -209,14 +212,14 @@ public class GUI {
 		JButton downBtn = new JButton("Down");
 		downBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				moveShape(0, MOVE_CONST, 0, MOVE_CONST);			}
+				editShape(0, CHANGE_CONST, 0, CHANGE_CONST);			}
 		});
 		horizontalBox_3.add(downBtn);
 		
 		JButton rightBtn = new JButton("Right");
 		rightBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				moveShape(MOVE_CONST, 0, MOVE_CONST, 0);
+				editShape(CHANGE_CONST, 0, CHANGE_CONST, 0);
 			}
 		});
 		horizontalBox_3.add(rightBtn);
@@ -224,11 +227,18 @@ public class GUI {
 		Box horizontalBox_4 = Box.createHorizontalBox();
 		vBox.add(horizontalBox_4);
 		
-		JButton btnNewButton_7 = new JButton("Increase Size");
-		horizontalBox_4.add(btnNewButton_7);
+		//TODO Bug Resize Line
+		JButton incBtn = new JButton("Increase Size");
+		incBtn.addActionListener(e -> {
+			editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
+		});
+		horizontalBox_4.add(incBtn);
 		
-		JButton btnNewButton_6 = new JButton("Decrease Size");
-		horizontalBox_4.add(btnNewButton_6);
+		JButton decBtn = new JButton("Decrease Size");
+		decBtn.addActionListener(e -> {
+			editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
+		});
+		horizontalBox_4.add(decBtn);
 		
 		Box horizontalBox = Box.createHorizontalBox();
 		vBox.add(horizontalBox);
@@ -261,10 +271,16 @@ public class GUI {
 		JButton btnLoad = new JButton("Load");
 		btnLoad.setAlignmentX(0.5f);
 		horizontalBox_1.add(btnLoad);
+
 		
-		JButton btnNewButton_8 = new JButton("Get Supported Shapes");
-		btnNewButton_8.setAlignmentX(Component.CENTER_ALIGNMENT);
-		vBox.add(btnNewButton_8);
+		JButton getSupportedShapesBtn = new JButton("Get Supported Shapes");
+		getSupportedShapesBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+		getSupportedShapesBtn.addActionListener(e -> {
+			JFileChooser f = new JFileChooser(); 
+			f.setDialogTitle("Choose the JAR file");
+			f.showOpenDialog(null);
+		});
+		vBox.add(getSupportedShapesBtn);
 		
 		
 		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
@@ -300,7 +316,7 @@ public class GUI {
 		
 	}
 	
-	private void moveShape(int x1, int y1, int x2, int y2) {
+	private void editShape(int x1, int y1, int x2, int y2) {
 		Shape oldShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
 		Shape newShape = cloneShape(oldShape);
 		newShape = updateShapeProp(newShape, x1, y1, x2, y2);
