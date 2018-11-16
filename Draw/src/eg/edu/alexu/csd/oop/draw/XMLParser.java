@@ -29,22 +29,27 @@ public class XMLParser {
 
 		for (Shape shape : shapes) {
 			writer.println("<shape id=" + shape.getClass().getName() + ">");
-
-			writer.println("<x>" + shape.getPosition().x + "</x>");
-			writer.println("<y>" + shape.getPosition().y + "</y>");
-
+			if(shape.getPosition() != null) {
+				writer.println("<x>" + shape.getPosition().x + "</x>");
+				writer.println("<y>" + shape.getPosition().y + "</y>");
+			}
 			writer.println("<map>");
-			Iterator<Map.Entry<String, Double>> it = shape.getProperties().entrySet().iterator();
-			while (it.hasNext()) {
-				Entry<String, Double> entry = it.next();
-				writer.println("<" + entry.getKey() + ">" + entry.getValue() + "</" + entry.getKey() + ">");
-
+			if(shape.getPosition() != null) {
+				Iterator<Map.Entry<String, Double>> it = shape.getProperties().entrySet().iterator();
+				while (it.hasNext()) {
+					Entry<String, Double> entry = it.next();
+					writer.println("<" + entry.getKey() + ">" + entry.getValue() + "</" + entry.getKey() + ">");
+	
+				}
 			}
 			writer.println("</map>");
-
-			writer.println("<color>" + shape.getColor().getRGB() + "</color>");
-			writer.println("<fillcolor>" + shape.getFillColor().getRGB() + "</fillcolor>");
-
+			
+			if(shape.getColor() != null) {
+				writer.println("<color>" + shape.getColor().getRGB() + "</color>");
+			}
+			if(shape.getFillColor() != null) {
+				writer.println("<fillcolor>" + shape.getFillColor().getRGB() + "</fillcolor>");
+			}
 			writer.println("</shape>");
 		}
 
@@ -62,6 +67,9 @@ public class XMLParser {
 
 		Pattern idPattern = Pattern.compile("<shape id=(\\S+)>");
 		Pattern valuePattern = Pattern.compile("<(\\S+)>(\\S+)</(\\S+)>");
+		Pattern colorPattern = Pattern.compile("<color>(\\S+)</color>");
+		Pattern fillColorPattern = Pattern.compile("<fillcolor>(\\S+)</fillcolor>");
+
 		Matcher matcher = null;
 
 		try {
@@ -77,39 +85,54 @@ public class XMLParser {
 				shape = tempShape.newInstance();
 				
 				//read position
-				matcher = valuePattern.matcher(reader.readLine());
-				matcher.matches();
-				String x = matcher.group(2);
-				matcher = valuePattern.matcher(reader.readLine());
-				matcher.matches();
-				String y = matcher.group(2);
-				shape.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
+				thisLine = reader.readLine();
+				matcher = valuePattern.matcher(thisLine);
+				String x = null;
+				if(matcher.matches()) {
+					x = matcher.group(2);
+					thisLine = reader.readLine();
+				}
+				matcher = valuePattern.matcher(thisLine);
+				String y = null;
+				if(matcher.matches()) {
+					y = matcher.group(2);
+					thisLine = reader.readLine();
+				}
+				if(x != null && y!= null) {
+					shape.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
+				}
 				
 				//read Map
-				reader.readLine();
-				Map<String, Double> properties = new HashMap<>();
-				while(!(thisLine = reader.readLine()).equals("</map>")) {
-					matcher = valuePattern.matcher(thisLine);
-					matcher.matches();
-					properties.put(matcher.group(1),
-							Double.parseDouble(matcher.group(2)));
+				if(thisLine.equals("<map>")){
+					Map<String, Double> properties = new HashMap<>();
+					while(!(thisLine = reader.readLine()).equals("</map>")) {
+						matcher = valuePattern.matcher(thisLine);
+						matcher.matches();
+						properties.put(matcher.group(1),Double.parseDouble(matcher.group(2)));
+					}
+					if(!properties.isEmpty()) {
+						shape.setProperties(properties);
+					}
+					thisLine = reader.readLine();
 				}
-				shape.setProperties(properties);
 				
 				//read Color
-				matcher = valuePattern.matcher(reader.readLine());
-				matcher.matches();
-				shape.setColor(new Color(Integer.parseInt(matcher.group(2))));
-			
+				matcher = colorPattern.matcher(thisLine);
+				if(matcher.matches()) {
+					shape.setColor(new Color(Integer.parseInt(matcher.group(1))));
+					thisLine = reader.readLine();
+				}
 				//read fillColor
-				matcher = valuePattern.matcher(reader.readLine());
-				matcher.matches();
-				shape.setFillColor(new Color(Integer.parseInt(matcher.group(2))));
+				matcher = fillColorPattern.matcher(thisLine);
+				if(matcher.matches()) {
+					shape.setFillColor(new Color(Integer.parseInt(matcher.group(1))));
+					thisLine = reader.readLine();
+				}
 				
-				//escape </shape>
-				reader.readLine();
+				if(thisLine.equals("</shape>")) {
+					allShapes.add(shape);	
+				}
 				
-				allShapes.add(shape);
 			}
 			reader.close();
 		} catch (Exception e) {
