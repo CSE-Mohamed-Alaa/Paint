@@ -138,8 +138,6 @@ public class DrawingEngineImp implements DrawingEngine {
 		if(ext.equalsIgnoreCase("xml")) {
 			XMLParser x = new XMLParser();
 			x.saveXML(path, shapes);
-			undoStack.removeAllElements();
-			redoStack.removeAllElements();
 		}else if(ext.equalsIgnoreCase("json")){
 			// TODO 
 		}
@@ -151,7 +149,8 @@ public class DrawingEngineImp implements DrawingEngine {
 		if(ext.equalsIgnoreCase("xml")) {
 			XMLParser x = new XMLParser();
 			shapes = x.loadXML(path);
-			
+			undoStack.removeAllElements();
+			redoStack.removeAllElements();
 		}else if(ext.equalsIgnoreCase("json")){
 			// TODO 
 		}
