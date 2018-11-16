@@ -276,23 +276,31 @@ public class GUI {
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(e -> {
-			JFileChooser f = new JFileChooser(); 
-			f.setDialogTitle("Choose file to save");
-			f.showOpenDialog(null);
-			
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
+			f.setDialogTitle("Choose file to save");			
 			int returnValue = f.showOpenDialog(null);
 
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = f.getSelectedFile();
-				System.out.println(selectedFile.getAbsolutePath());
+				drawingEngine.save(f.getSelectedFile().getAbsolutePath());
 			}
 
-			//drawingEngine.save(path);
 		});
 		btnSave.setAlignmentX(0.5f);
 		horizontalBox_1.add(btnSave);
 		
 		JButton btnLoad = new JButton("Load");
+		btnLoad.addActionListener(e -> {
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
+			f.setDialogTitle("Choose file to load");
+			int returnValue = f.showOpenDialog(null);
+
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				drawingEngine.load(f.getSelectedFile().getAbsolutePath());
+				drawingBoard.repaint();
+				updateShapesModel();
+			}
+
+		});
 		btnLoad.setAlignmentX(0.5f);
 		horizontalBox_1.add(btnLoad);
 
@@ -300,7 +308,7 @@ public class GUI {
 		JButton getSupportedShapesBtn = new JButton("Get Supported Shapes");
 		getSupportedShapesBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		getSupportedShapesBtn.addActionListener(e -> {
-			JFileChooser f = new JFileChooser(); 
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
 			f.setDialogTitle("Choose the JAR file");
 			f.showOpenDialog(null);
 		});
