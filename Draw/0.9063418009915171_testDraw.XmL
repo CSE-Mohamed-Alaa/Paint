@@ -1,0 +1,11 @@
+<paint>
+<shape id=eg.edu.alexu.csd.oop.draw.RoundRectangle>
+<map>
+</map>
+</shape>
+<shape id=eg.edu.alexu.csd.oop.test.DummyShape>
+<map>
+</map>
+<color>-65536</color>
+</shape>
+</paint>

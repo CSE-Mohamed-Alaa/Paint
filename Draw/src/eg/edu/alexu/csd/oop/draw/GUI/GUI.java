@@ -472,7 +472,14 @@ public class GUI {
 			repaint();
 		}
 
-
+		private int xChange(int xDifference,int yDifference) {
+			int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
+			return (Math.abs(xDifference)/length) * 10;
+		}
+		private int yChange(int xDifference,int yDifference) {
+			int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
+			return (Math.abs(yDifference)/length) * 10;
+		}
 		
 	}
 

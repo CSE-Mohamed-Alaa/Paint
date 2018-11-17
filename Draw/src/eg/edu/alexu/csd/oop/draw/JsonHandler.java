@@ -2,20 +2,17 @@ package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.Map.Entry;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,17 +102,17 @@ public class JsonHandler {
 					regexChecker.matches();
 					int posy = Integer.parseInt(regexChecker.group(1));
 					x.setPosition(new Point(posx, posy));
-				}else {
+				} else {
 					in.nextLine();
 				}
 				regex = Pattern.compile(".color.:.(-?\\d+)..");
 				regexChecker = regex.matcher(in.nextLine());
-				if(regexChecker.matches()) {
-				x.setColor(new Color(Integer.parseInt(regexChecker.group(1))));
+				if (regexChecker.matches()) {
+					x.setColor(new Color(Integer.parseInt(regexChecker.group(1))));
 				}
 				regex = Pattern.compile("\"properties\":.");
 				regexChecker = regex.matcher(in.nextLine());
-				if(regexChecker.matches()) {
+				if (regexChecker.matches()) {
 					regex = Pattern.compile("\"(\\S+)\":\"(\\S+)\",?");
 					regexChecker = regex.matcher(in.nextLine());
 					HashMap<String, Double> prob = new HashMap<>();
@@ -128,49 +125,23 @@ public class JsonHandler {
 				}
 				regex = Pattern.compile(".fillColor.:.(-?\\d+)..");
 				regexChecker = regex.matcher(in.nextLine());
-				if(regexChecker.matches()) {
-				x.setFillColor(new Color(Integer.parseInt(regexChecker.group(1))));
+				if (regexChecker.matches()) {
+					x.setFillColor(new Color(Integer.parseInt(regexChecker.group(1))));
 				}
 				loadedShapes.add(x);
 				in.nextLine();
 			}
+			in.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return loadedShapes;
 
 	}
-
-	private static Shape determineShape(String className) {
-		Shape x = null;
-		if (className.equals("Line")) {
-			x = new Line();
-		} else if (className.equals("Circle")) {
-			x = new Circle();
-		} else if (className.equals("Ellipse")) {
-			x = new Ellipse();
-		} else if (className.equals("Rectangle")) {
-			x = new Rectangle();
-		} else if (className.equals("Square")) {
-			x = new Square();
-		} else {
-			x = new Triangle();
-		}
-		return x;
-	}
-
-	public static void main(String[] args) {
-
-	}
-
 }
