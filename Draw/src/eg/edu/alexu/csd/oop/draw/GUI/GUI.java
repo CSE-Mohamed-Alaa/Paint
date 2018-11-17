@@ -246,7 +246,12 @@ public class GUI {
 		
 		JButton decBtn = new JButton("Decrease Size");
 		decBtn.addActionListener(e -> {
-			editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
+			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
+			Double dX = ((Point)currentShape.getPosition()).getX() - currentShape.getProperties().get("x");
+			Double dY = ((Point)currentShape.getPosition()).getY() - currentShape.getProperties().get("y");
+			if(Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
+				editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
+			}
 		});
 		horizontalBox_4.add(decBtn);
 		
