@@ -1,34 +1,23 @@
 {"shapes":[
 {
 "class":"class eg.edu.alexu.csd.oop.draw.Ellipse",
-"posX":"357.0",
-"posY":"128.0",
-"Color":"-16777216",
+"posX":"363.0",
+"posY":"149.0",
+"color":"-16777216",
 "properties":{
-"x":"101.0",
+"x":"567.0",
+"y":"343.0"
+},
+"fillColor":"-16777216"
+},
+{
+"class":"class eg.edu.alexu.csd.oop.draw.Ellipse",
+"posX":"171.0",
+"posY":"157.0",
+"color":"-16777216",
+"properties":{
+"x":"218.0",
 "y":"315.0"
-},
-"fillColor":"-16777216"
-},
-{
-"class":"class eg.edu.alexu.csd.oop.draw.Ellipse",
-"posX":"504.0",
-"posY":"92.0",
-"Color":"-16777216",
-"properties":{
-"x":"646.0",
-"y":"355.0"
-},
-"fillColor":"-16777216"
-},
-{
-"class":"class eg.edu.alexu.csd.oop.draw.Ellipse",
-"posX":"443.0",
-"posY":"364.0",
-"Color":"-16777216",
-"properties":{
-"x":"443.0",
-"y":"18.0"
 },
 "fillColor":"-16777216"
 }]}
