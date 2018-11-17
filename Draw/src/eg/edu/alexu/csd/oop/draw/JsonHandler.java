@@ -116,12 +116,12 @@ public class JsonHandler {
 				regex = Pattern.compile("\"properties\":.");
 				regexChecker = regex.matcher(in.nextLine());
 				if(regexChecker.matches()) {
-					regex = Pattern.compile("\"(\\S)\":\"(\\S+)\",?");
+					regex = Pattern.compile("\"(\\S+)\":\"(\\S+)\",?");
 					regexChecker = regex.matcher(in.nextLine());
 					HashMap<String, Double> prob = new HashMap<>();
 					while (regexChecker.matches()) {
 						prob.put(regexChecker.group(1), Double.valueOf(regexChecker.group(2)));
-						regex = Pattern.compile("\"(\\S)\":\"(\\S+)\",?");
+						regex = Pattern.compile("\"(\\S+)\":\"(\\S+)\",?");
 						regexChecker = regex.matcher(in.nextLine());
 					}
 					x.setProperties(prob);
