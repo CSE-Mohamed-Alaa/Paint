@@ -57,6 +57,8 @@ public class GUI {
 
     private final DefaultComboBoxModel<Integer> shapesModel = new DefaultComboBoxModel<Integer>();
         
+	final int CHANGE_CONST = 10;
+
 	private JButton lineBtn, rectangleBtn, squareBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
 	private Point position, current;
 	private Map<String, Double> properties;
@@ -201,7 +203,6 @@ public class GUI {
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		vBox.add(horizontalBox_2);
 		
-		final int CHANGE_CONST = 10;
 		
 		JButton upBtn = new JButton("UP");
 		upBtn.addActionListener(e -> {
@@ -245,10 +246,10 @@ public class GUI {
 		incBtn.addActionListener(e -> {
 			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
 			if(currentShape.getClass().getSimpleName().equals("Line")) {
-				int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
-				int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
+				int dX = (int) -(((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
+				int dY = (int) -(((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 				
-				editShape(0, 0, xChange(Math.abs(dX),Math.abs(dY)), yChange(Math.abs(dX),Math.abs(dY)));
+				editShape(0, 0, xChange(dX,dY), yChange(dX,dY));
 			}else {
 				editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
 			}
@@ -258,11 +259,11 @@ public class GUI {
 		JButton decBtn = new JButton("Decrease Size");
 		decBtn.addActionListener(e -> {
 			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
-			int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
-			int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
+			int dX = (int) -(((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
+			int dY = (int) -(((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 			if(Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
 				if(currentShape.getClass().getSimpleName().equals("Line")) {
-					editShape(0, 0, -xChange(Math.abs(dX),Math.abs(dY)), -yChange(Math.abs(dX),Math.abs(dY)));
+					editShape(0, 0, -xChange(dX,dY), -yChange(dX,dY));
 				}else {
 					editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
 				}
@@ -421,11 +422,11 @@ public class GUI {
 	
 	private int xChange(int xDifference,int yDifference) {
 		int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
-		return (Math.abs(xDifference)/length) * 10;
+		return (xDifference*CHANGE_CONST)/length;
 	}
 	private int yChange(int xDifference,int yDifference) {
 		int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
-		return (Math.abs(yDifference)/length) * 10;
+		return (xDifference*CHANGE_CONST)/length;
 	}
 	
 	
