@@ -1,6 +1,8 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Graphics;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -13,8 +15,8 @@ import java.util.jar.JarFile;
 
 public class DrawingEngineImp implements DrawingEngine {
 	private ArrayList<Shape> shapes = new ArrayList<>();
-	Stack<ArrayList<Shape>> undoStack = new Stack<>();
-	Stack<ArrayList<Shape>> redoStack = new Stack<>();
+	private Stack<ArrayList<Shape>> undoStack = new Stack<>();
+	private Stack<ArrayList<Shape>> redoStack = new Stack<>();
 	@Override
 	public void refresh(Object oCanvas) {
 		Graphics canvas = (Graphics)oCanvas;
@@ -66,11 +68,15 @@ public class DrawingEngineImp implements DrawingEngine {
 		List<Class<? extends Shape>> ans = new ArrayList<Class<? extends Shape>>();
 		JarFile jarFile;
 		try {
-			jarFile = new JarFile("RoundRectangle.jar");
+			@SuppressWarnings("resource")
+			BufferedReader reader = new BufferedReader(new FileReader("supportedShapePath.txt"));
+			String path = reader.readLine();
+			reader.close();
+			jarFile = new JarFile(path);
 		
 		Enumeration<JarEntry> e = jarFile.entries();
 
-		URL[] urls = { new URL("jar:file:" + "RoundRectangle.jar"+"!/") };
+		URL[] urls = { new URL("jar:file:" + path +"!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
 
 		while (e.hasMoreElements()) {

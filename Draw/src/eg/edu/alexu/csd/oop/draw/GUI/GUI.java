@@ -340,8 +340,9 @@ public class GUI {
 				} catch (FileNotFoundException | UnsupportedEncodingException e2) {
 					e2.printStackTrace();
 				}
-				writer.println(f.getSelectedFile().getAbsolutePath());
+				writer.println(f.getSelectedFile().getPath());
 				writer.close();
+				//TODO call getSupportedShapes
 			}
 		});
 		vBox.add(getSupportedShapesBtn);
