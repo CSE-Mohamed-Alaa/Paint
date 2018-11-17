@@ -6,7 +6,8 @@ import java.awt.Polygon;
 public class Triangle extends ShapeImp {
 
 	@Override
-	public void draw(Graphics canvas) {
+	public void draw(Object oCanvas) {
+		Graphics canvas = (Graphics)oCanvas;
 		int y = getPosition().y;
 		int x = (int) (getPosition().x + 2 * (getProperties().get("x") - getPosition().x));
 		Polygon p = new Polygon(new int[]{x,getProperties().get("x").intValue(),(int) getPosition().getX(),x}, new int[]{y,(int)

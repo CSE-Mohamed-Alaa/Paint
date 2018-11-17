@@ -5,7 +5,8 @@ import java.awt.Graphics;
 public class Ellipse extends ShapeImp {
 	
 	@Override
-	public void draw(Graphics canvas) {
+	public void draw(Object oCanvas) {
+		Graphics canvas = (Graphics)oCanvas;
 		int x = Math.min(getPosition().x,  getProperties().get("x").intValue());
 		int y = Math.min(getPosition().y,  getProperties().get("y").intValue());
 		int width = Math.abs(getPosition().x-  getProperties().get("x").intValue());

@@ -16,8 +16,8 @@ public class DrawingEngineImp implements DrawingEngine {
 	Stack<ArrayList<Shape>> undoStack = new Stack<>();
 	Stack<ArrayList<Shape>> redoStack = new Stack<>();
 	@Override
-	public void refresh(Graphics canvas) {
-		
+	public void refresh(Object oCanvas) {
+		Graphics canvas = (Graphics)oCanvas;
 		for (Shape x : shapes) {
 			x.draw(canvas);
 		}

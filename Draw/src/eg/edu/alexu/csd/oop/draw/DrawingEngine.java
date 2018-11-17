@@ -3,7 +3,7 @@ package eg.edu.alexu.csd.oop.draw;
 public interface DrawingEngine {
 
     /* redraw all shapes on the canvas */
-    public void refresh(java.awt.Graphics canvas);
+    public void refresh(Object canvas);
 
     public void addShape(Shape shape);
     public void removeShape(Shape shape);
@@ -16,9 +16,6 @@ public interface DrawingEngine {
      * ones that can be dynamically loaded at runtime (see Part 3) */
     public java.util.List<Class<? extends Shape>> getSupportedShapes();
   
-    /* add to the supported shapes the new shape class (see Part 3) */
-    // public void installPluginShape(String jarPath);
-
     /* limited to 20 steps. Only consider in undo & redo 
      * these actions: addShape, removeShape, updateShape */
     public void undo();

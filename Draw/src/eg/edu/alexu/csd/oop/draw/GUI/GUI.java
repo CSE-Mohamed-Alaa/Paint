@@ -338,7 +338,7 @@ public class GUI {
 	}
 
 	private Shape updateShapeProp(Shape shape, int x1, int y1, int x2, int y2) {
-		Point p1 = new Point(shape.getPosition().x + x1, shape.getPosition().y + y1);
+		Point p1 = new Point(((Point)shape.getPosition()).x + x1, ((Point)shape.getPosition()).y + y1);
 		shape.setPosition(p1);
 		Map<String, Double> p2 = new HashMap<>();
 		p2.put("x", shape.getProperties().get("x") + x2);

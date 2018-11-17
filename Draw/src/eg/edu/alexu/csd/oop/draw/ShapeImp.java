@@ -13,8 +13,8 @@ public abstract class ShapeImp implements Shape {
 	private Color color;
 	private Color fillColor;
 	@Override
-	public void setPosition(Point position) {
-		this.position = position;
+	public void setPosition(Object position) {
+		this.position = (Point)position;
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public abstract class ShapeImp implements Shape {
 	}
 
 	@Override
-	public void setColor(Color color) {
-		this.color = color;
+	public void setColor(Object color) {
+		this.color = (Color)color;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public abstract class ShapeImp implements Shape {
 	}
 
 	@Override
-	public void setFillColor(Color color) {
-		this.fillColor = color;
+	public void setFillColor(Object color) {
+		this.fillColor = (Color)color;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public abstract class ShapeImp implements Shape {
 	}
 
 	@Override
-	public abstract void draw(Graphics canvas);
+	public abstract void draw(Object canvas);
 	@Override
 	public Object clone() throws CloneNotSupportedException{
 		Shape x = getInstance();

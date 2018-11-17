@@ -34,9 +34,9 @@ public class JsonHandler {
 				Shape x = shapes.get(i);
 				writer.println("{");
 				writer.println("\"class\":\"" + x.getClass() + "\",");
-				writer.println("\"posX\":\"" + x.getPosition().getX() + "\",");
-				writer.println("\"posY\":\"" + x.getPosition().getY() + "\",");
-				writer.println("\"Color\":\"" + x.getColor().getRGB() + "\",");
+				writer.println("\"posX\":\"" + ((Point) x.getPosition()).getX() + "\",");
+				writer.println("\"posY\":\"" + ((Point) x.getPosition()).getY() + "\",");
+				writer.println("\"Color\":\"" + ((Color) x.getColor()).getRGB() + "\",");
 				writer.println("\"properties\":{");
 				Iterator<Map.Entry<String, Double>> it = x.getProperties().entrySet().iterator();
 				while (it.hasNext()) {
@@ -50,9 +50,9 @@ public class JsonHandler {
 				}
 				writer.println("},");
 				if (x.getFillColor() != null) {
-					writer.println("\"fillColor\":\"" + x.getFillColor().getRGB() + "\"");
+					writer.println("\"fillColor\":\"" + ((Color) x.getFillColor()).getRGB() + "\"");
 				} else {
-					writer.println("\"fillColor\":\"" + x.getFillColor().getRGB() + "\"");
+					writer.println("\"fillColor\":\"" + ((Color) x.getFillColor()).getRGB() + "\"");
 				}
 
 				if (i != shapes.size() - 1) {

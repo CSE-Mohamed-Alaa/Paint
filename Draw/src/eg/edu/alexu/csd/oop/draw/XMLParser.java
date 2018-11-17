@@ -30,8 +30,8 @@ public class XMLParser {
 		for (Shape shape : shapes) {
 			writer.println("<shape id=" + shape.getClass().getName() + ">");
 			if(shape.getPosition() != null) {
-				writer.println("<x>" + shape.getPosition().x + "</x>");
-				writer.println("<y>" + shape.getPosition().y + "</y>");
+				writer.println("<x>" + ((Point)shape.getPosition()).x + "</x>");
+				writer.println("<y>" + ((Point)shape.getPosition()).y + "</y>");
 			}
 			writer.println("<map>");
 			if(shape.getPosition() != null) {
@@ -45,10 +45,10 @@ public class XMLParser {
 			writer.println("</map>");
 			
 			if(shape.getColor() != null) {
-				writer.println("<color>" + shape.getColor().getRGB() + "</color>");
+				writer.println("<color>" + ((Color) shape.getColor()).getRGB() + "</color>");
 			}
 			if(shape.getFillColor() != null) {
-				writer.println("<fillcolor>" + shape.getFillColor().getRGB() + "</fillcolor>");
+				writer.println("<fillcolor>" + ((Color) shape.getFillColor()).getRGB() + "</fillcolor>");
 			}
 			writer.println("</shape>");
 		}

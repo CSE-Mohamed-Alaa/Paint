@@ -6,7 +6,8 @@ public class Circle extends  ShapeImp {
 	
 
 	@Override
-	public void draw(Graphics canvas) {
+	public void draw(Object oCanvas) {
+		Graphics canvas = (Graphics)oCanvas;
 		int x = getPosition().x;
 		int y = getPosition().y;
 		int radius = (int) Math.sqrt(Math.pow(getPosition().x - getProperties().get("x") , 2)+Math.pow(getPosition().y - getProperties().get("y") , 2));
