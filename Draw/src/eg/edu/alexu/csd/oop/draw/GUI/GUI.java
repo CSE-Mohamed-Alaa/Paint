@@ -244,7 +244,7 @@ public class GUI {
 		JButton incBtn = new JButton("Increase Size");
 		incBtn.addActionListener(e -> {
 			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
-			if(currentShape.getClass().getSimpleName() == "Line") {
+			if(currentShape.getClass().getSimpleName().equals("Line")) {
 				int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
 				int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 				
@@ -261,7 +261,7 @@ public class GUI {
 			int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
 			int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 			if(Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
-				if(currentShape.getClass().getSimpleName() == "Line") {
+				if(currentShape.getClass().getSimpleName().equals("Line")) {
 					editShape(0, 0, -xChange(Math.abs(dX),Math.abs(dY)), -yChange(Math.abs(dX),Math.abs(dY)));
 				}else {
 					editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
