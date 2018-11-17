@@ -243,17 +243,29 @@ public class GUI {
 		
 		JButton incBtn = new JButton("Increase Size");
 		incBtn.addActionListener(e -> {
-			editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
+			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
+			if(currentShape.getClass().getSimpleName() == "Line") {
+				int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
+				int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
+				
+				editShape(0, 0, xChange(Math.abs(dX),Math.abs(dY)), yChange(Math.abs(dX),Math.abs(dY)));
+			}else {
+				editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
+			}
 		});
 		horizontalBox_4.add(incBtn);
 		
 		JButton decBtn = new JButton("Decrease Size");
 		decBtn.addActionListener(e -> {
 			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
-			Double dX = ((Point)currentShape.getPosition()).getX() - currentShape.getProperties().get("x");
-			Double dY = ((Point)currentShape.getPosition()).getY() - currentShape.getProperties().get("y");
+			int dX = (int) (((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
+			int dY = (int) (((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 			if(Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
-				editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
+				if(currentShape.getClass().getSimpleName() == "Line") {
+					editShape(0, 0, -xChange(Math.abs(dX),Math.abs(dY)), -yChange(Math.abs(dX),Math.abs(dY)));
+				}else {
+					editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
+				}
 			}
 		});
 		horizontalBox_4.add(decBtn);
@@ -390,6 +402,9 @@ public class GUI {
 		btn.addActionListener(e -> {
 			if (name == ShapeId.COLOR) {
 				color = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
+				if(color == null) {
+					color = Color.BLACK;
+				}
 			} else {
 				fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
 				if(fillColor != null) {
@@ -404,7 +419,14 @@ public class GUI {
 		return btn;
 	}
 	
-	
+	private int xChange(int xDifference,int yDifference) {
+		int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
+		return (Math.abs(xDifference)/length) * 10;
+	}
+	private int yChange(int xDifference,int yDifference) {
+		int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
+		return (Math.abs(yDifference)/length) * 10;
+	}
 	
 	
 	public class DrawingBoard extends JPanel {
@@ -473,14 +495,6 @@ public class GUI {
 			repaint();
 		}
 
-		private int xChange(int xDifference,int yDifference) {
-			int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
-			return (Math.abs(xDifference)/length) * 10;
-		}
-		private int yChange(int xDifference,int yDifference) {
-			int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
-			return (Math.abs(yDifference)/length) * 10;
-		}
 		
 	}
 
