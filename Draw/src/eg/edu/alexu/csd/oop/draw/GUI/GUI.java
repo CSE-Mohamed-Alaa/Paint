@@ -201,7 +201,7 @@ public class GUI {
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		vBox.add(horizontalBox_2);
 
-		JButton upBtn = new JButton("UP");
+		JButton upBtn = new JButton("Up");
 		upBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
 				editShape(0, -CHANGE_CONST, 0, -CHANGE_CONST);
@@ -345,7 +345,7 @@ public class GUI {
 				//TODO call getSupportedShapes
 			}
 		});
-		vBox.add(getSupportedShapesBtn);
+		//vBox.add(getSupportedShapesBtn);
 
 		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
 

@@ -123,7 +123,7 @@ public class JsonHandler {
 					}
 					x.setProperties(prob);
 				}
-				regex = Pattern.compile(".fillColor.:.(-?\\d+)..");
+				regex = Pattern.compile(".fillColor.:.(-?\\d+).");
 				regexChecker = regex.matcher(in.nextLine());
 				if (regexChecker.matches()) {
 					x.setFillColor(new Color(Integer.parseInt(regexChecker.group(1))));

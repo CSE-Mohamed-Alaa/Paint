@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Graphics;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -68,15 +66,17 @@ public class DrawingEngineImp implements DrawingEngine {
 		List<Class<? extends Shape>> ans = new ArrayList<Class<? extends Shape>>();
 		JarFile jarFile;
 		try {
+			/*
 			@SuppressWarnings("resource")
 			BufferedReader reader = new BufferedReader(new FileReader("supportedShapePath.txt"));
 			String path = reader.readLine();
 			reader.close();
-			jarFile = new JarFile(path);
+			*/
+			jarFile = new JarFile("RoundRectangle.jar");
 		
 		Enumeration<JarEntry> e = jarFile.entries();
 
-		URL[] urls = { new URL("jar:file:" + path +"!/") };
+		URL[] urls = { new URL("jar:file:" + "RoundRectangle.jar" +"!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
 
 		while (e.hasMoreElements()) {
