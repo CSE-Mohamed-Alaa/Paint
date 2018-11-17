@@ -93,26 +93,26 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 600);
 
-		String pass = "./src/eg/edu/alexu/csd/oop/draw/GUI/";
-		lineBtn = creatButton(ShapeId.Line, pass + "Line.png");
-		rectangleBtn = creatButton(ShapeId.Rectangle, pass + "Rectangle.png");
-		triangleBtn = creatButton(ShapeId.Triangle, "Triangle.png");
-		circleBtn = creatButton(ShapeId.Circle, "Circle.png");
-		ellipseBtn = creatButton(ShapeId.Ellipse, pass + "Ellipse.png");
-		squareBtn = creatButton(ShapeId.Square, pass + "Square.png");
-		colorBtn = creatColorButton(ShapeId.COLOR, pass + "Stroke.png");
-		fillColorBtn = creatColorButton(ShapeId.FILLCOLOR, pass + "Fill.png");
+		String path = "./src/eg/edu/alexu/csd/oop/draw/GUI/";
+		lineBtn = creatButton(ShapeId.Line, path + "Line.png");
+		rectangleBtn = creatButton(ShapeId.Rectangle, path + "Rectangle.png");
+		triangleBtn = creatButton(ShapeId.Triangle, path + "Triangle.png");
+		circleBtn = creatButton(ShapeId.Circle, path + "Circle.png");
+		ellipseBtn = creatButton(ShapeId.Ellipse, path + "Ellipse.png");
+		squareBtn = creatButton(ShapeId.Square, path + "Square.png");
+		colorBtn = creatColorButton(ShapeId.COLOR, path + "Stroke.png");
+		fillColorBtn = creatColorButton(ShapeId.FILLCOLOR, path + "Fill.png");
 
 		Box hBox = Box.createHorizontalBox();
 
-		hBox.add(colorBtn);
-		hBox.add(fillColorBtn);
 		hBox.add(lineBtn);
 		hBox.add(triangleBtn);
 		hBox.add(squareBtn);
 		hBox.add(rectangleBtn);
 		hBox.add(circleBtn);
 		hBox.add(ellipseBtn);
+		hBox.add(colorBtn);
+		hBox.add(fillColorBtn);
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
