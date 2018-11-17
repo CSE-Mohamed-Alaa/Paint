@@ -81,7 +81,8 @@ public class DrawingEngineImp implements DrawingEngine {
 		    // -6 because of .class
 		    String className = je.getName().substring(0,je.getName().length()-6);
 		    className = className.replace('/', '.');
-		    Class<? extends Shape> c = (Class<? extends Shape>) cl.loadClass(className);
+		    @SuppressWarnings("unchecked")
+			Class<? extends Shape> c = (Class<? extends Shape>) cl.loadClass(className);
 		    Object x = c.newInstance();
 		    if (x instanceof Shape) {
 				ans.add(c);
@@ -124,6 +125,7 @@ public class DrawingEngineImp implements DrawingEngine {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	void updateStacks() {
 		redoStack.removeAllElements();
 		if (undoStack.size() == 20) {

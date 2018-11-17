@@ -10,6 +10,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -18,12 +19,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -45,6 +44,8 @@ import eg.edu.alexu.csd.oop.draw.Square;
 import eg.edu.alexu.csd.oop.draw.Triangle;
 
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 
@@ -93,6 +94,12 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 600);
 
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension dim = tk.getScreenSize();
+		int xPos = (dim.width / 2) - (frame.getWidth() / 2);
+		int yPos = (dim.height / 2) - (frame.getHeight() / 2);
+		frame.setLocation(xPos, yPos);
+
 		String path = "./src/eg/edu/alexu/csd/oop/draw/GUI/";
 		lineBtn = creatButton(ShapeId.Line, path + "Line.png");
 		rectangleBtn = creatButton(ShapeId.Rectangle, path + "Rectangle.png");
@@ -113,7 +120,7 @@ public class GUI {
 		hBox.add(ellipseBtn);
 		hBox.add(colorBtn);
 		hBox.add(fillColorBtn);
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
 		frame.getContentPane().add(buttonsPanel, BorderLayout.NORTH);
