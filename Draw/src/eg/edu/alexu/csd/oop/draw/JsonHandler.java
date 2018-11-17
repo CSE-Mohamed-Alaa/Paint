@@ -83,11 +83,11 @@ public class JsonHandler {
 
 	}
 
-	public static void load(String path, ArrayList<Shape> shapes) {
+	public static ArrayList<Shape> load(String path) {
+		ArrayList<Shape> loadedShapes = new ArrayList<>();
 		try {
 			Scanner in = new Scanner(new File(path));
 			in.nextLine();
-			ArrayList<Shape> loadedShapes = new ArrayList<>();
 			while (in.hasNextLine()) {
 				in.nextLine();
 				Pattern regex = Pattern.compile(".class...class (\\S+)\",");
@@ -134,7 +134,6 @@ public class JsonHandler {
 				loadedShapes.add(x);
 				in.nextLine();
 			}
-			shapes = loadedShapes;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,6 +147,8 @@ public class JsonHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return loadedShapes;
+
 	}
 
 	private static Shape determineShape(String className) {

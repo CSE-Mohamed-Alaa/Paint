@@ -24,6 +24,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JCheckBox;
@@ -237,7 +240,6 @@ public class GUI {
 		Box horizontalBox_4 = Box.createHorizontalBox();
 		vBox.add(horizontalBox_4);
 		
-		//TODO Bug Resize Line
 		JButton incBtn = new JButton("Increase Size");
 		incBtn.addActionListener(e -> {
 			editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
@@ -315,7 +317,18 @@ public class GUI {
 		getSupportedShapesBtn.addActionListener(e -> {
 			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
 			f.setDialogTitle("Choose the JAR file");
-			f.showOpenDialog(null);
+			int returnValue = f.showOpenDialog(null);
+
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				PrintWriter writer = null;
+				try {
+					writer = new PrintWriter("supportedShapePath.txt", "UTF-8");
+				} catch (FileNotFoundException | UnsupportedEncodingException e2) {
+					e2.printStackTrace();
+				}
+				writer.println(f.getSelectedFile().getAbsolutePath());
+				writer.close();
+			}
 		});
 		vBox.add(getSupportedShapesBtn);
 		

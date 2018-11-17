@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class XMLParser {
 
-	public void saveXML(String path, ArrayList<Shape> shapes) {
+	public static void saveXML(String path, ArrayList<Shape> shapes) {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(path, "UTF-8");
@@ -58,7 +58,7 @@ public class XMLParser {
 		writer.close();
 	}
 
-	public ArrayList<Shape> loadXML(String path) {
+	public static ArrayList<Shape> loadXML(String path) {
 
 		ArrayList<Shape> allShapes = new ArrayList<>();
 		Shape shape = null;

@@ -136,10 +136,9 @@ public class DrawingEngineImp implements DrawingEngine {
 	public void save(String path) {
 		String ext = getExtension(path);
 		if(ext.equalsIgnoreCase("xml")) {
-			XMLParser x = new XMLParser();
-			x.saveXML(path, shapes);
+			XMLParser.saveXML(path, shapes);
 		}else if(ext.equalsIgnoreCase("json")){
-			// TODO 
+			JsonHandler.Save(path, shapes);
 		}
 	}
 
@@ -147,12 +146,13 @@ public class DrawingEngineImp implements DrawingEngine {
 	public void load(String path) {
 		String ext = getExtension(path);
 		if(ext.equalsIgnoreCase("xml")) {
-			XMLParser x = new XMLParser();
-			shapes = x.loadXML(path);
+			shapes = XMLParser.loadXML(path);
 			undoStack.removeAllElements();
 			redoStack.removeAllElements();
 		}else if(ext.equalsIgnoreCase("json")){
-			// TODO 
+			shapes = JsonHandler.load(path);
+			undoStack.removeAllElements();
+			redoStack.removeAllElements();
 		}
 
 	}
