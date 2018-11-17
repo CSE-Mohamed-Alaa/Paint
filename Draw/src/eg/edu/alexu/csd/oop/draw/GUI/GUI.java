@@ -100,7 +100,7 @@ public class GUI {
 		int yPos = (dim.height / 2) - (frame.getHeight() / 2);
 		frame.setLocation(xPos, yPos);
 
-		String path = "./src/eg/edu/alexu/csd/oop/draw/GUI/";
+		String path = "/eg/edu/alexu/csd/oop/draw/GUI/";
 		lineBtn = creatButton(ShapeId.Line, path + "Line.png");
 		rectangleBtn = creatButton(ShapeId.Rectangle, path + "Rectangle.png");
 		triangleBtn = creatButton(ShapeId.Triangle, path + "Triangle.png");
@@ -390,7 +390,7 @@ public class GUI {
 
 	private JButton creatButton(ShapeId name, String icon) {
 		JButton btn = new JButton(/* name.toString() */);
-		Icon x = new ImageIcon(icon);
+		Icon x = new ImageIcon(getClass().getResource(icon));
 		btn.setIcon(x);
 		btn.addActionListener(e -> currentButton = name);
 		return btn;
@@ -399,7 +399,7 @@ public class GUI {
 
 	private JButton creatColorButton(ShapeId name, String icon) {
 		JButton btn = new JButton(/* name.toString() */);
-		Icon x = new ImageIcon(icon);
+		Icon x = new ImageIcon(getClass().getResource(icon));
 		btn.setIcon(x);
 		btn.addActionListener(e -> {
 			if (name == ShapeId.COLOR) {
