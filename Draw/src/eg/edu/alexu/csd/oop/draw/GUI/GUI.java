@@ -103,14 +103,15 @@ public class GUI {
 
 		Box hBox = Box.createHorizontalBox();
 
+		hBox.add(colorBtn);
+		hBox.add(fillColorBtn);
 		hBox.add(lineBtn);
 		hBox.add(triangleBtn);
 		hBox.add(squareBtn);
 		hBox.add(rectangleBtn);
 		hBox.add(circleBtn);
 		hBox.add(ellipseBtn);
-		hBox.add(colorBtn);
-		hBox.add(fillColorBtn);
+
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
