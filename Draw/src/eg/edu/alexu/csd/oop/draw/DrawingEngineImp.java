@@ -123,6 +123,7 @@ public class DrawingEngineImp implements DrawingEngine {
 		
 
 	}
+	
 	void updateStacks() {
 		redoStack.removeAllElements();
 		if (undoStack.size() == 20) {
@@ -130,15 +131,39 @@ public class DrawingEngineImp implements DrawingEngine {
 		}
 		undoStack.push((ArrayList<Shape>) shapes.clone());
 	}
+	
 	@Override
 	public void save(String path) {
-		// TODO Auto-generated method stub
-
+		String ext = getExtension(path);
+		if(ext.equalsIgnoreCase("xml")) {
+			XMLParser x = new XMLParser();
+			x.saveXML(path, shapes);
+		}else if(ext.equalsIgnoreCase("json")){
+			// TODO 
+		}
 	}
 
 	@Override
 	public void load(String path) {
-		// TODO Auto-generated method stub
+		String ext = getExtension(path);
+		if(ext.equalsIgnoreCase("xml")) {
+			XMLParser x = new XMLParser();
+			shapes = x.loadXML(path);
+			undoStack.removeAllElements();
+			redoStack.removeAllElements();
+		}else if(ext.equalsIgnoreCase("json")){
+			// TODO 
+		}
 
+	}
+	private String getExtension(String path) {
+		String tempExt = path.substring(path.length()-4, path.length());
+		if(tempExt.equalsIgnoreCase(".xml")) {
+			return "xml";
+		}else if (tempExt.equalsIgnoreCase("json")){
+			return "json";
+		}else {
+			return null;
+		}
 	}
 }

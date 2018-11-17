@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JCheckBox;
@@ -41,6 +42,8 @@ import eg.edu.alexu.csd.oop.draw.Square;
 import eg.edu.alexu.csd.oop.draw.Triangle;
 
 import java.awt.Component;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 
 public class GUI {
@@ -169,9 +172,16 @@ public class GUI {
 		});
 		vBox.add(solidShapes);
 		
+		Box horizontalBox_5 = Box.createHorizontalBox();
+		vBox.add(horizontalBox_5);
 		
-		JComboBox<Integer> allShapesComboBox = new JComboBox<Integer>(shapesModel);	
-		vBox.add(allShapesComboBox);
+		JLabel lblNewLabel = new JLabel("Shape Number");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		horizontalBox_5.add(lblNewLabel);
+		
+		
+		JComboBox<Integer> allShapesComboBox = new JComboBox<Integer>(shapesModel);
+		horizontalBox_5.add(allShapesComboBox);
 		
 		JButton removeShape = new JButton("Remove Selected Shape");
 		removeShape.addActionListener(e -> {
@@ -265,10 +275,32 @@ public class GUI {
 		vBox.add(horizontalBox_1);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(e -> {
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
+			f.setDialogTitle("Choose file to save");			
+			int returnValue = f.showOpenDialog(null);
+
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				drawingEngine.save(f.getSelectedFile().getAbsolutePath());
+			}
+
+		});
 		btnSave.setAlignmentX(0.5f);
 		horizontalBox_1.add(btnSave);
 		
 		JButton btnLoad = new JButton("Load");
+		btnLoad.addActionListener(e -> {
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
+			f.setDialogTitle("Choose file to load");
+			int returnValue = f.showOpenDialog(null);
+
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				drawingEngine.load(f.getSelectedFile().getAbsolutePath());
+				drawingBoard.repaint();
+				updateShapesModel();
+			}
+
+		});
 		btnLoad.setAlignmentX(0.5f);
 		horizontalBox_1.add(btnLoad);
 
@@ -276,7 +308,7 @@ public class GUI {
 		JButton getSupportedShapesBtn = new JButton("Get Supported Shapes");
 		getSupportedShapesBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		getSupportedShapesBtn.addActionListener(e -> {
-			JFileChooser f = new JFileChooser(); 
+			JFileChooser f = new JFileChooser(System.getProperty("user.home")+"/Desktop"); 
 			f.setDialogTitle("Choose the JAR file");
 			f.showOpenDialog(null);
 		});
