@@ -245,6 +245,11 @@ public class GUI {
 		JButton incBtn = new JButton("Increase Size");
 		incBtn.addActionListener(e -> {
 			Shape currentShape = drawingEngine.getShapes()[(int)(shapesModel.getSelectedItem())-1];
+			int dX = (int) -(((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
+			int dY = (int) -(((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
+			
+			editShape(0, 0, xChange(dX,dY), yChange(dX,dY));
+			/*
 			if(currentShape.getClass().getSimpleName().equals("Line")) {
 				int dX = (int) -(((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
 				int dY = (int) -(((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
@@ -253,6 +258,7 @@ public class GUI {
 			}else {
 				editShape(0, 0, CHANGE_CONST, CHANGE_CONST);
 			}
+			*/
 		});
 		horizontalBox_4.add(incBtn);
 		
@@ -262,11 +268,15 @@ public class GUI {
 			int dX = (int) -(((Point)currentShape.getPosition()).x - Math.round(currentShape.getProperties().get("x")));
 			int dY = (int) -(((Point)currentShape.getPosition()).y - Math.round(currentShape.getProperties().get("y")));
 			if(Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
+				editShape(0, 0, -xChange(dX,dY), -yChange(dX,dY));
+/*
+				
 				if(currentShape.getClass().getSimpleName().equals("Line")) {
 					editShape(0, 0, -xChange(dX,dY), -yChange(dX,dY));
 				}else {
 					editShape(0, 0, -CHANGE_CONST, -CHANGE_CONST);
 				}
+				*/
 			}
 		});
 		horizontalBox_4.add(decBtn);
@@ -426,7 +436,7 @@ public class GUI {
 	}
 	private int yChange(int xDifference,int yDifference) {
 		int length = (int) Math.sqrt(xDifference * xDifference+yDifference*yDifference);
-		return (xDifference*CHANGE_CONST)/length;
+		return (yDifference*CHANGE_CONST)/length;
 	}
 	
 	
