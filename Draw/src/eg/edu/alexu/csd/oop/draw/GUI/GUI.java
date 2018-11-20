@@ -549,7 +549,7 @@ public class GUI {
 
 	private void changeValue(String x) {
 		try {
-			String value = JOptionPane.showInputDialog("Enter " + x + " Value");
+			String value = JOptionPane.showInputDialog("Enter " + x + " Value in Pixels");
 			CHANGE_CONST = Integer.parseInt(value);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error While Entering The Input !!");
