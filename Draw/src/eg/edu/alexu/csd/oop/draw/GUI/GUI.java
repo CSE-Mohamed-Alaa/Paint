@@ -286,7 +286,7 @@ public class GUI {
 	
 				editShape(0, 0, xChange(dX, dY), yChange(dX, dY));
 			}else {
-				
+				resizeSup(CHANGE_CONST);
 			}
 
 		});
@@ -317,7 +317,7 @@ public class GUI {
 				}
 				
 			}else {
-				
+				resizeSup(-CHANGE_CONST);
 			}
 		});
 		horizontalBox_4.add(decBtn);
@@ -416,7 +416,7 @@ public class GUI {
 								JOptionPane.PLAIN_MESSAGE);
 						if (result == JOptionPane.OK_OPTION) {
 							try {
-								current = new Point(Integer.parseInt(((JTextField) comp[1]).getText()),
+								Point p1 = new Point(Integer.parseInt(((JTextField) comp[1]).getText()),
 										Integer.parseInt(((JTextField) comp[3]).getText()));
 								properties = new HashMap<>();
 								//After position fields +2 for label (even) and textField (odd)
@@ -424,7 +424,7 @@ public class GUI {
 									properties.put(((JLabel)comp[i]).getText(), Double.parseDouble(((JTextField) comp[i+1]).getText()));
 								}
 
-								drawingBoard.passShapeInfo(shape, position, properties, color, fillColor, true);
+								drawingBoard.passShapeInfo(shape, p1, properties, color, fillColor, true);
 								shapesModel.addElement((int) (drawingEngine.getShapes().length + 1));
 							} catch (NumberFormatException e2) {
 								JOptionPane.showMessageDialog(null, "Error While Entering The Properties !!");
@@ -553,6 +553,7 @@ public class GUI {
 			CHANGE_CONST = Integer.parseInt(value);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error While Entering The Input !!");
+			CHANGE_CONST = 0;
 		}
 	}
 	
@@ -575,6 +576,26 @@ public class GUI {
 		Point p1 = new Point(((Point) newShape.getPosition()).x + x, ((Point) newShape.getPosition()).y + y);
 		newShape.setPosition(p1);		
 		
+		drawingEngine.updateShape(oldShape, newShape);
+		drawingBoard.repaint();
+	}
+	
+	private void resizeSup(int change) {
+		Shape oldShape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+		Shape newShape = cloneShape(oldShape);
+		Iterator<Map.Entry<String, Double>> it = newShape.getProperties().entrySet().iterator();
+		Entry<String, Double> entry;
+		double ratio = 1 ;
+		if(it.hasNext()) {
+			entry = it.next();
+			ratio = 1 + (change/entry.getValue());
+			entry.setValue(entry.getValue() * ratio);
+		}
+		while (it.hasNext()) {
+			entry = it.next();
+			entry.setValue(entry.getValue() * ratio);
+		}
+	
 		drawingEngine.updateShape(oldShape, newShape);
 		drawingBoard.repaint();
 	}
