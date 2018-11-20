@@ -11,10 +11,4 @@ public class Line extends ShapeImp {
 				getProperties().get("y").intValue());
 	}
 
-	@Override
-	public Shape getInstance() {
-		Shape x = new Line();
-		return x;
-	}
-
 }

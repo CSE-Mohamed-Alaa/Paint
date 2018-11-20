@@ -21,10 +21,4 @@ public class Rectangle extends ShapeImp {
 
 	}
 
-	@Override
-	public Shape getInstance() {
-		Shape x = new Rectangle();
-		return x;
-	}
-	
 }

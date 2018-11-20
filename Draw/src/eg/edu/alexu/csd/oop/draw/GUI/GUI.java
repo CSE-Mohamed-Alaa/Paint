@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.oop.draw.GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -19,15 +20,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -47,6 +49,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 public class GUI {
@@ -56,8 +60,9 @@ public class GUI {
 	private JFrame frame;
 
 	private final DefaultComboBoxModel<Integer> shapesModel = new DefaultComboBoxModel<Integer>();
+	private final DefaultComboBoxModel<String> supShapesModel = new DefaultComboBoxModel<>();
 
-	final int CHANGE_CONST = 10;
+	int CHANGE_CONST = 0;
 
 	private JButton lineBtn, rectangleBtn, squareBtn, triangleBtn, circleBtn, ellipseBtn, colorBtn, fillColorBtn;
 	private Point position, current;
@@ -120,7 +125,7 @@ public class GUI {
 		hBox.add(ellipseBtn);
 		hBox.add(colorBtn);
 		hBox.add(fillColorBtn);
-		
+
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(hBox);
 		frame.getContentPane().add(buttonsPanel, BorderLayout.NORTH);
@@ -145,13 +150,13 @@ public class GUI {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				current = new Point(e.getX(), e.getY());
-				properties = new HashMap<>();
-				properties.put("x", current.getX());
-				properties.put("y", current.getY());
-				drawingBoard.passShapeInfo(currentButton, position, properties, color, fillColor, true);
-
-				shapesModel.addElement((int) (drawingEngine.getShapes().length + 1));
+					current = new Point(e.getX(), e.getY());
+					properties = new HashMap<>();
+					properties.put("x", current.getX());
+					properties.put("y", current.getY());
+					drawingBoard.passShapeInfo(currentButton, position, properties, color, fillColor, true);
+					shapesModel.addElement((int) (drawingEngine.getShapes().length + 1));
+				
 
 			}
 		});
@@ -204,7 +209,13 @@ public class GUI {
 		JButton upBtn = new JButton("Up");
 		upBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				editShape(0, -CHANGE_CONST, 0, -CHANGE_CONST);
+				changeValue("Move");
+				Shape shape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+				if (ourShape(shape)) {
+					editShape(0, -CHANGE_CONST, 0, -CHANGE_CONST);
+				}else {
+					moveSup(0,-CHANGE_CONST);
+				}
 			}
 		});
 
@@ -216,7 +227,13 @@ public class GUI {
 		JButton leftBtn = new JButton("Left");
 		leftBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				editShape(-CHANGE_CONST, 0, -CHANGE_CONST, 0);
+				changeValue("Move");
+				Shape shape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+				if (ourShape(shape)) {
+					editShape(-CHANGE_CONST, 0, -CHANGE_CONST, 0);
+				}else {
+					moveSup(-CHANGE_CONST, 0);
+				}
 			}
 		});
 		horizontalBox_3.add(leftBtn);
@@ -224,15 +241,28 @@ public class GUI {
 		JButton downBtn = new JButton("Down");
 		downBtn.addActionListener(e -> {
 			if (shapesModel.getSelectedItem() != null) {
-				editShape(0, CHANGE_CONST, 0, CHANGE_CONST);
+				changeValue("Move");
+				Shape shape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+				if (ourShape(shape)) {
+					editShape(0, CHANGE_CONST, 0, CHANGE_CONST);
+				}else {
+					moveSup(0,CHANGE_CONST);	
+				}
 			}
 		});
 		horizontalBox_3.add(downBtn);
 
 		JButton rightBtn = new JButton("Right");
 		rightBtn.addActionListener(e -> {
+			
 			if (shapesModel.getSelectedItem() != null) {
-				editShape(CHANGE_CONST, 0, CHANGE_CONST, 0);
+				changeValue("Move");
+				Shape shape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+				if (ourShape(shape)) {
+					editShape(CHANGE_CONST, 0, CHANGE_CONST, 0);
+				}else {
+					moveSup(CHANGE_CONST, 0);
+				}
 			}
 		});
 		horizontalBox_3.add(rightBtn);
@@ -242,32 +272,52 @@ public class GUI {
 
 		JButton incBtn = new JButton("Increase Size");
 		incBtn.addActionListener(e -> {
+			if (shapesModel.getSelectedItem() == null) {
+				return;
+			}
+			changeValue("Increase");
 			Shape currentShape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
-			int dX = (int) -(((Point) currentShape.getPosition()).x
-					- Math.round(currentShape.getProperties().get("x")));
-			int dY = (int) -(((Point) currentShape.getPosition()).y
-					- Math.round(currentShape.getProperties().get("y")));
-
-			editShape(0, 0, xChange(dX, dY), yChange(dX, dY));
+			if (ourShape(currentShape)) {
+				
+				int dX = (int) -(((Point) currentShape.getPosition()).x
+						- Math.round(currentShape.getProperties().get("x")));
+				int dY = (int) -(((Point) currentShape.getPosition()).y
+						- Math.round(currentShape.getProperties().get("y")));
+	
+				editShape(0, 0, xChange(dX, dY), yChange(dX, dY));
+			}else {
+				
+			}
 
 		});
 		horizontalBox_4.add(incBtn);
 
 		JButton decBtn = new JButton("Decrease Size");
 		decBtn.addActionListener(e -> {
+			if (shapesModel.getSelectedItem() == null) {
+				return;
+			}
+			
+			changeValue("Decrease");
 			Shape currentShape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
-			int dX = (int) -(((Point) currentShape.getPosition()).x
-					- Math.round(currentShape.getProperties().get("x")));
-			int dY = (int) -(((Point) currentShape.getPosition()).y
-					- Math.round(currentShape.getProperties().get("y")));
-			if (currentShape.getClass().getSimpleName().equals("Circle")) {
-				if (Math.abs(dX) > CHANGE_CONST || Math.abs(dY) > CHANGE_CONST) {
-					editShape(0, 0, -xChange(dX, dY), -yChange(dX, dY));
+			if (ourShape(currentShape)) {
+				
+				int dX = (int) -(((Point) currentShape.getPosition()).x
+						- Math.round(currentShape.getProperties().get("x")));
+				int dY = (int) -(((Point) currentShape.getPosition()).y
+						- Math.round(currentShape.getProperties().get("y")));
+				if (currentShape.getClass().getSimpleName().equals("Circle")) {
+					if (Math.abs(dX) > CHANGE_CONST || Math.abs(dY) > CHANGE_CONST) {
+						editShape(0, 0, -xChange(dX, dY), -yChange(dX, dY));
+					}
+				} else {
+					if (Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
+						editShape(0, 0, -xChange(dX, dY), -yChange(dX, dY));
+					}
 				}
-			} else {
-				if (Math.abs(dX) > CHANGE_CONST && Math.abs(dY) > CHANGE_CONST) {
-					editShape(0, 0, -xChange(dX, dY), -yChange(dX, dY));
-				}
+				
+			}else {
+				
 			}
 		});
 		horizontalBox_4.add(decBtn);
@@ -329,23 +379,71 @@ public class GUI {
 		JButton getSupportedShapesBtn = new JButton("Get Supported Shapes");
 		getSupportedShapesBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		getSupportedShapesBtn.addActionListener(e -> {
-			JFileChooser f = new JFileChooser(System.getProperty("user.home") + "/Desktop");
-			f.setDialogTitle("Choose the JAR file");
-			int returnValue = f.showOpenDialog(null);
 
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				PrintWriter writer = null;
-				try {
-					writer = new PrintWriter("supportedShapePath.txt", "UTF-8");
-				} catch (FileNotFoundException | UnsupportedEncodingException e2) {
-					e2.printStackTrace();
-				}
-				writer.println(f.getSelectedFile().getPath());
-				writer.close();
-				//TODO call getSupportedShapes
+			List<Class<? extends Shape>> supShapes = drawingEngine.getSupportedShapes();
+			supShapesModel.removeAllElements();
+			for (Class<? extends Shape> supShape : supShapes) {
+				supShapesModel.addElement(supShape.getSimpleName());
 			}
+
+			/*
+			 * JFileChooser f = new JFileChooser(System.getProperty("user.home") +
+			 * "/Desktop"); f.setDialogTitle("Choose the JAR file"); int returnValue =
+			 * f.showOpenDialog(null);
+			 * 
+			 * if (returnValue == JFileChooser.APPROVE_OPTION) { PrintWriter writer = null;
+			 * try { writer = new PrintWriter("supportedShapePath.txt", "UTF-8"); } catch
+			 * (FileNotFoundException | UnsupportedEncodingException e2) {
+			 * e2.printStackTrace(); } writer.println(f.getSelectedFile().getPath());
+			 * writer.close();  }
+			 * 
+			 */
+
 		});
-		//vBox.add(getSupportedShapesBtn);
+		vBox.add(getSupportedShapesBtn);
+		JComboBox<String> subShapesComboBox = new JComboBox<>(supShapesModel);
+
+		JButton drawSupShapeBtn = new JButton("Draw Supported Shape");
+		drawSupShapeBtn.addActionListener(e -> {
+			String x = (String) supShapesModel.getSelectedItem();
+			List<Class<? extends Shape>> supShapes = drawingEngine.getSupportedShapes();
+			for (Class<? extends Shape> supShape : supShapes) {
+				if (supShape.getSimpleName().equals(x)) {
+					try {
+						Shape shape = supShape.newInstance();
+						JComponent[] comp = createPropFieldsArray(shape);
+						int result = JOptionPane.showConfirmDialog(null, comp, x + " Properties",
+								JOptionPane.PLAIN_MESSAGE);
+						if (result == JOptionPane.OK_OPTION) {
+							try {
+								current = new Point(Integer.parseInt(((JTextField) comp[1]).getText()),
+										Integer.parseInt(((JTextField) comp[3]).getText()));
+								properties = new HashMap<>();
+								//After position fields +2 for label (even) and textField (odd)
+								for (int i = 4; i < comp.length; i+=2) {
+									properties.put(((JLabel)comp[i]).getText(), Double.parseDouble(((JTextField) comp[i+1]).getText()));
+								}
+
+								drawingBoard.passShapeInfo(shape, position, properties, color, fillColor, true);
+								shapesModel.addElement((int) (drawingEngine.getShapes().length + 1));
+							} catch (NumberFormatException e2) {
+								JOptionPane.showMessageDialog(null, "Error While Entering The Properties !!");
+							}
+						}
+
+					} catch (InstantiationException | IllegalAccessException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+
+		});
+		// drawSupShapeBtn.setAlignmentX(0.5f);
+
+		Box supportedShapesBox = Box.createHorizontalBox();
+		supportedShapesBox.add(drawSupShapeBtn);
+		supportedShapesBox.add(subShapesComboBox);
+		vBox.add(supportedShapesBox);
 
 		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
 
@@ -431,6 +529,58 @@ public class GUI {
 		return (int) Math.round((yDifference * CHANGE_CONST) / length);
 	}
 
+	// inputs in odd indexes
+	private JComponent[] createPropFieldsArray(Shape shape) {
+		ArrayList<JComponent> propFields = new ArrayList<>();
+		propFields.add(new JLabel("Position of X"));
+		propFields.add(new JTextField());
+		propFields.add(new JLabel("Position of Y"));
+		propFields.add(new JTextField());
+		Iterator<Map.Entry<String, Double>> it = shape.getProperties().entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<String, Double> entry = it.next();
+			propFields.add(new JLabel(entry.getKey()));
+			propFields.add(new JTextField());
+		}
+		JComponent[] arr = new JComponent[propFields.size()];
+		arr = propFields.toArray(arr);
+		return arr;
+	}
+
+	private void changeValue(String x) {
+		try {
+			String value = JOptionPane.showInputDialog("Enter " + x + " Value");
+			CHANGE_CONST = Integer.parseInt(value);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error While Entering The Input !!");
+		}
+	}
+	
+	private boolean ourShape(Shape x) {
+		String name = x.getClass().getSimpleName();
+		boolean flag = false;
+		final int numOfShapes = 6;
+		for (int i = 0; i < numOfShapes; i++) {
+			if(name.equals(ShapeId.values()[i].name())) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
+	
+	private void moveSup(int x ,int y) {
+		Shape oldShape = drawingEngine.getShapes()[(int) (shapesModel.getSelectedItem()) - 1];
+		Shape newShape = cloneShape(oldShape);
+		
+		Point p1 = new Point(((Point) newShape.getPosition()).x + x, ((Point) newShape.getPosition()).y + y);
+		newShape.setPosition(p1);		
+		
+		drawingEngine.updateShape(oldShape, newShape);
+		drawingBoard.repaint();
+	}
+	
+	
+	
 	public class DrawingBoard extends JPanel {
 
 		/**
@@ -486,6 +636,17 @@ public class GUI {
 		public void passShapeInfo(ShapeId id, Point position, Map<String, Double> properties, Color color,
 				Color fillColor, boolean finished) {
 			Shape x = determineShape(id);
+			shapeFinished = finished;
+			currentShape = x;
+			x.setPosition(position);
+			x.setProperties(properties);
+			x.setColor(color);
+			x.setFillColor(fillColor);
+			repaint();
+		}
+
+		public void passShapeInfo(Shape x, Point position, Map<String, Double> properties, Color color, Color fillColor,
+				boolean finished) {
 			shapeFinished = finished;
 			currentShape = x;
 			x.setPosition(position);

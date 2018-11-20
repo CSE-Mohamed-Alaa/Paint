@@ -19,11 +19,5 @@ public class Circle extends  ShapeImp {
 		canvas.setColor(getColor());
 		canvas.drawOval(x- radius, y - radius, 2 *radius, 2*radius);
 	}
-	
-	@Override
-	public Shape getInstance() {
-		Shape x = new Circle();
-		return x;
-	}
-	
+
 }

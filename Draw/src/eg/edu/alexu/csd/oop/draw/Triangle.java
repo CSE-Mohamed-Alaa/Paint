@@ -20,11 +20,6 @@ public class Triangle extends ShapeImp {
 		canvas.drawPolygon(p);
 
 	}
-	
-	@Override
-	public Shape getInstance() {
-		Shape x = new Triangle();
-		return x;
-	}
+
 
 }

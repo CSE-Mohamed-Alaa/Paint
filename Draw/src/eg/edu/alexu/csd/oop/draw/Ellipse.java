@@ -20,10 +20,4 @@ public class Ellipse extends ShapeImp {
 		canvas.drawOval(x, y, width, height);
 	}
 	
-	@Override
-	public Shape getInstance() {
-		Shape x = new Ellipse();
-		return x;
-	}
-
 }

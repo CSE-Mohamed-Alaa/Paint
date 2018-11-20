@@ -19,10 +19,4 @@ public class Square extends ShapeImp {
 		canvas.drawRect(x- radius, y - radius, 2 *radius, 2*radius);
 	}
 	
-	@Override
-	public Shape getInstance() {
-		Shape x = new Square();
-		return x;
-	}
-
 }
